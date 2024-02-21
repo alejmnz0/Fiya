@@ -4,6 +4,7 @@ import com.app.fiya.security.jwt.access.JwtProvider;
 import com.app.fiya.user.dto.UserRegister;
 import com.app.fiya.user.model.User;
 import com.app.fiya.user.service.UserService;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -28,32 +29,24 @@ public class UserController {
     private final JwtProvider jwtProvider;
 
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "successfully registered user", content = {
+            @ApiResponse(responseCode = "201", description = "User created successfully", content = {
                     @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = User.class)),
                             examples = {@ExampleObject(
                                     value = """
                                                 {
-                                                    "id": "f53fd11b-a28f-4748-a725-41c617faf2f3",
-                                                                               "username": "Pepeillo",
-                                                                               "rol": "ADMIN",
-                                                                               "token": "eyJ0eXAiOiJKV1
-                                                                               QiLCJhbGciOiJIUzUxMiJ9.eyJ
-                                                                               zdWIiOiJmNTNmZDExYi1hMjhmLT
-                                                                               Q3NDgtYTcyNS00MWM2MTdmYWYy
-                                                                               ZjMiLCJpYXQiOjE3MDExOTgzNTg
-                                                                               sImV4cCI6MTcwMTI4NDc1OH0.aQ
-                                                                               6EYXHlHcUXAjKzSMXsXKOtpac3O
-                                                                               Lrw9VkAYb31PtmRea8X2RrRzMci8k
-                                                                               A-_BRG6U6Y9rX3Jyc8s0jXM8rbMw"
+                                                    "name": "Alejandro Jiménez Fernández",
+                                                    "dni": "25435123K"
+                                                    "password": "123456789"
                                                 }
                                             """
                             )}
                     )}),
             @ApiResponse(responseCode = "400",
-                    description = "Los datos introducidos no son válidos",
+                    description = "Invalid data",
                     content = @Content)
     })
+    @JsonView(UserRegister.UserResponse.class)
     @PostMapping("/register")
     public ResponseEntity<UserRegister> userRegister (@Valid @RequestBody UserRegister data){
         userService.saveUser(data);

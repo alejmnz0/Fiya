@@ -1,10 +1,9 @@
 package com.app.fiya.user.dto;
 
-import com.app.fiya.validation.annotation.FieldsValueMatch;
-import com.app.fiya.validation.annotation.PasswordLength;
-import com.app.fiya.validation.annotation.UniqueDni;
-import com.app.fiya.validation.annotation.UniqueEmail;
+import com.app.fiya.user.model.User;
+import com.app.fiya.validation.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +25,7 @@ import java.util.UUID;
 public class UserRegister {
 
     @NotNull(message = "{UserRegister.dni.notempty}")
+    @JsonView({UserResponse.class})
     @NotEmpty(message = "{UserRegister.dni.notempty}")
     @UniqueDni
     private String dni;
@@ -36,10 +36,12 @@ public class UserRegister {
     private String email;
 
     @NotEmpty(message = "{UserRegister.name.notempty}")
+    @JsonView({UserResponse.class})
     @NotNull(message = "{UserRegister.name.notempty}")
     private String name;
 
     @NotNull(message = "{UserRegister.password.notempty}")
+    @JsonView({UserResponse.class})
     @NotEmpty(message = "{UserRegister.password.notempty}")
     @PasswordLength
     private String password;
@@ -49,8 +51,20 @@ public class UserRegister {
     private String repeatPassword;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =  "dd-MM-yyyy")
-    @NotNull(message = "{UserRegister.bithdate.notempty}")
-    @NotEmpty(message = "{UserRegister.bithdate.notempty}")
+    @LocalDateNotNull
     private LocalDate birthdate;
+
+    public static UserRegister fromUser (User user){
+        return UserRegister.builder()
+                .name(user.getName())
+                .dni(user.getDni())
+                .birthdate(user.getBirthdate())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .repeatPassword(user.getPassword())
+                .build();
+    }
+
+    public static class UserResponse {}
 
 }
