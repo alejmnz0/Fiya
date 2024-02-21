@@ -29,4 +29,13 @@ public class UserService {
                 .email(data.getEmail())
                 .build()));
     }
+
+    public boolean existDni(String dni ) {
+        return userRepository.getAlldni().stream().toList().contains(dni);
+    }
+
+    public boolean existEmail(String email ) {
+        return userRepository.getAllemail().stream().toList().contains(email);
+    }
+
 }

@@ -10,6 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.UuidGenerator;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -20,6 +21,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @AllArgsConstructor
 @SuperBuilder
 @Getter
