@@ -3,6 +3,7 @@ import 'package:fiya_front/repositories/user_repository_impl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fiya_front/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -20,7 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final passTextController = TextEditingController();
   final lastDate = DateTime.now();
   final firstDate = DateTime(1900, 1, 1);
-  DateTime birthDate = DateTime(1900, 1, 1);
+  DateTime birthDate = DateTime(2000, 1, 1);
   final TextEditingController birthdateTextController = TextEditingController();
 
   late UserRepository userRepo;
@@ -60,9 +61,9 @@ class _RegisterPageState extends State<RegisterPage> {
               },
               builder: (context, state) {
                 if (state is DoRegisterSuccess) {
-                  return const Text('Login success');
+                  return const Text('Register success');
                 } else if (state is DoRegisterError) {
-                  return const Text('Login error');
+                  return const Text('Register error');
                 } else if (state is DoRegisterLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
@@ -82,130 +83,159 @@ class _RegisterPageState extends State<RegisterPage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Login',
-            textAlign: TextAlign.start,
-            style: TextStyle(fontSize: 40),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 80.0),
+            child: Text(
+              'Create an account',
+              textAlign: TextAlign.start,
+              style: TextStyle(fontSize: 40),
+            ),
           ),
           const SizedBox(
             height: 20,
           ),
-          TextFormField(
-            controller: nameTextController,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: 'Name'),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            controller: dniTextController,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: 'Dni'),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            controller: emailTextController,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: 'Email'),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            controller: passTextController,
-            obscureText: true,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: 'Password'),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            controller: rpassTextController,
-            obscureText: true,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: 'Repeat password'),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            controller: birthdateTextController,
-            decoration: const InputDecoration(
-                border: OutlineInputBorder(), labelText: 'Birthday'),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter some text';
-              }
-              return null;
-            },
-            onTap: () {
-              showDatePicker(
-                      context: context,
-                      firstDate: firstDate,
-                      lastDate: lastDate)
-                  .then((selectedDate) {
-                if (selectedDate != null) {
-                  setState(() {
-                    birthDate = selectedDate;
-                    birthdateTextController.text =
-                        DateFormat.yMMMd().format(birthDate).toString();
-                  });
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            child: TextFormField(
+              controller: nameTextController,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Name'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
                 }
-              });
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              child: Text('Login'.toUpperCase()),
-              onPressed: () {
-                if (formRegister.currentState!.validate()) {
-                  registerBloc.add(DoRegisterEvent(
-                      nameTextController.text,
-                      passTextController.text,
-                      rpassTextController.text,
-                      emailTextController.text,
-                      dniTextController.text,
-                      birthdateTextController.text));
-                }
+                return null;
               },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            child: TextFormField(
+              controller: dniTextController,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Dni'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            child: TextFormField(
+              controller: emailTextController,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Email'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            child: TextFormField(
+              controller: passTextController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Password'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            child: TextFormField(
+              controller: rpassTextController,
+              obscureText: true,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Repeat password'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            child: TextFormField(
+              controller: birthdateTextController,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Birthday'),
+              validator: (value) {
+                if (value == null ||
+                    value.compareTo(birthDate.toString()) == 0) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+              onTap: () {
+                showDatePicker(
+                        context: context,
+                        firstDate: firstDate,
+                        lastDate: lastDate)
+                    .then((selectedDate) {
+                  if (selectedDate != null) {
+                    setState(() {
+                      birthDate = selectedDate;
+                      birthdateTextController.text =
+                          DateFormat.yMd().format(birthDate).toString();
+                    });
+                  }
+                });
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: const ButtonStyle(
+                  backgroundColor:
+                      MaterialStatePropertyAll(Color.fromRGBO(33, 33, 33, 100)),
+                ),
+                child: Text('Get Started'.toUpperCase()),
+                onPressed: () {
+                  if (formRegister.currentState!.validate()) {
+                    registerBloc.add(DoRegisterEvent(
+                        nameTextController.text,
+                        passTextController.text,
+                        rpassTextController.text,
+                        emailTextController.text,
+                        dniTextController.text,
+                        birthdateTextController.text));
+                  }
+                },
+              ),
             ),
           ),
         ],
