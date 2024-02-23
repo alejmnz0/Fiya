@@ -53,6 +53,7 @@ public class User implements UserDetails {
     private String email;
     private String image;
     private LocalDate birthdate;
+    private UserRole role = UserRole.USER;
     //private Team team;
 
     @Override
