@@ -4,6 +4,7 @@ import com.app.fiya.user.model.User;
 import com.app.fiya.validation.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,6 +33,7 @@ public class UserRegister {
     @NotEmpty(message = "{UserRegister.email.notempty}")
     @NotNull(message = "{UserRegister.email.notempty}")
     @UniqueEmail
+    @Email
     private String email;
 
     @NotEmpty(message = "{UserRegister.name.notempty}")

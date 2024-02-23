@@ -27,10 +27,12 @@ class _RegisterPageState extends State<RegisterPage> {
   late UserRepository userRepo;
   late RegisterBloc registerBloc;
 
+  @override
   void initState() {
     birthdateTextController.text = birthDate.toString();
     userRepo = UserRepositoryImpl();
     registerBloc = RegisterBloc(userRepo);
+    super.initState();
   }
 
   @override
