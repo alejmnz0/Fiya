@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:fiya_front/models/user/register_dto.dart';
+import 'package:fiya_front/models/user/login_dto.dart';
 import 'package:fiya_front/models/user/register_response.dart';
 import 'package:fiya_front/repositories/user_repository.dart';
 import 'package:http/http.dart';
