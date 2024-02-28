@@ -1,5 +1,6 @@
 import 'package:fiya_front/bloc/user_bloc/register_bloc.dart';
 import 'package:fiya_front/repositories/user_repository_impl.dart';
+import 'package:fiya_front/ui/pages/add_field_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fiya_front/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
@@ -38,9 +39,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter Gradient Example'),
-      ),
       body: Center(
           child: Container(
         decoration: const BoxDecoration(
@@ -222,8 +220,8 @@ class _RegisterPageState extends State<RegisterPage> {
               width: double.infinity,
               child: ElevatedButton(
                 style: const ButtonStyle(
-                  backgroundColor:
-                      MaterialStatePropertyAll(Color.fromRGBO(33, 33, 33, 100)),
+                  backgroundColor: MaterialStatePropertyAll(
+                      Color.fromRGBO(129, 129, 129, 0.612)),
                 ),
                 child: Text('Get Started'.toUpperCase()),
                 onPressed: () {
@@ -240,6 +238,19 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+              child: InkWell(
+            child: const Text("Already have an account?"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const AddFieldPage()),
+              );
+            },
+          )),
         ],
       ),
     );

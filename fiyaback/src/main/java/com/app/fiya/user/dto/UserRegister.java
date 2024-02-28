@@ -20,35 +20,35 @@ import java.time.LocalDate;
 @SuperBuilder
 @FieldsValueMatch(
         field = "password", fieldMatch = "repeatPassword",
-        message = "{UserRegister.password.nomatch}"
+        message = "{UserRegister.password.match}"
 )
 public class UserRegister {
 
-    @NotNull(message = "{UserRegister.dni.notempty}")
+    @NotNull(message = "{UserRegister.dni.nonempty}")
     @JsonView({UserResponse.class})
-    @NotEmpty(message = "{UserRegister.dni.notempty}")
+    @NotEmpty(message = "{UserRegister.dni.nonempty}")
     @UniqueDni
     private String dni;
 
-    @NotEmpty(message = "{UserRegister.email.notempty}")
-    @NotNull(message = "{UserRegister.email.notempty}")
+    @NotEmpty(message = "{UserRegister.email.nonempty}")
+    @NotNull(message = "{UserRegister.email.nonempty}")
     @UniqueEmail
-    @Email
+    @Email(message = "{UserRegister.email.email}")
     private String email;
 
-    @NotEmpty(message = "{UserRegister.name.notempty}")
+    @NotEmpty(message = "{UserRegister.name.nonempty}")
     @JsonView({UserResponse.class})
-    @NotNull(message = "{UserRegister.name.notempty}")
+    @NotNull(message = "{UserRegister.name.nonempty}")
     private String name;
 
-    @NotNull(message = "{UserRegister.password.notempty}")
+    @NotNull(message = "{UserRegister.password.nonempty}")
     @JsonView({UserResponse.class})
-    @NotEmpty(message = "{UserRegister.password.notempty}")
+    @NotEmpty(message = "{UserRegister.password.nonempty}")
     @PasswordLength
     private String password;
 
-    @NotNull(message = "{UserRegister.password.notempty}")
-    @NotEmpty(message = "{UserRegister.password.notempty}")
+    @NotNull(message = "{UserRegister.password.nonempty}")
+    @NotEmpty(message = "{UserRegister.password.nonempty}")
     private String repeatPassword;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =  "dd-MM-yyyy")

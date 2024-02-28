@@ -94,6 +94,7 @@ public class SecurityConfig {
                 .requestMatchers(
                         antMatcher("/h2-console/**"),
                         antMatcher("/register"),
+                        antMatcher("/**"),
                         antMatcher("/login"),
                         antMatcher("/error")
                 ));
