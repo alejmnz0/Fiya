@@ -16,6 +16,7 @@ public class InitData {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+
     @PostConstruct
     public void InitDat() {
         User user = User.builder()

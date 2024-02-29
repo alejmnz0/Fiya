@@ -1,31 +1,38 @@
-import 'package:fiya_front/bloc/user_bloc/register_bloc.dart';
+import 'package:fiya_front/bloc/login_bloc/login_bloc.dart';
 import 'package:fiya_front/repositories/user_repository_impl.dart';
 import 'package:fiya_front/ui/pages/add_field_page.dart';
+import 'package:fiya_front/ui/pages/register_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fiya_front/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
-  final formRegister = GlobalKey<FormState>();
+class _LoginPageState extends State<LoginPage> {
+  final formLogin = GlobalKey<FormState>();
   final dniTextController = TextEditingController();
   final passTextController = TextEditingController();
 
   late UserRepository userRepo;
-  late RegisterBloc registerBloc;
+  late LoginBloc loginBloc;
 
   @override
   void initState() {
     userRepo = UserRepositoryImpl();
-    registerBloc = RegisterBloc(userRepo);
+    loginBloc = LoginBloc(userRepo);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    dniTextController.dispose();
+    passTextController.dispose();
+    super.dispose();
   }
 
   @override
@@ -43,33 +50,41 @@ class _RegisterPageState extends State<RegisterPage> {
           ],
         )),
         child: BlocProvider.value(
-            value: registerBloc,
-            child: BlocConsumer<RegisterBloc, RegisterState>(
+            value: loginBloc,
+            child: BlocConsumer<LoginBloc, LoginState>(
               buildWhen: (context, state) {
-                return state is RegisterInitial ||
-                    state is DoRegisterSuccess ||
-                    state is DoRegisterError ||
-                    state is DoRegisterLoading;
+                return state is LoginInitial ||
+                    state is DoLoginSuccess ||
+                    state is DoLoginError ||
+                    state is DoLoginLoading;
               },
               builder: (context, state) {
-                if (state is DoRegisterSuccess) {
+                if (state is DoLoginSuccess) {
                   return const Text('Login success');
-                } else if (state is DoRegisterError) {
+                } else if (state is DoLoginError) {
                   return const Text('Login error');
-                } else if (state is DoRegisterLoading) {
+                } else if (state is DoLoginLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                return Center(child: buildRegisterForm());
+                return Center(child: buildLoginForm());
               },
-              listener: (BuildContext context, RegisterState state) {},
+              listener: (BuildContext context, LoginState state) {
+                if (state is DoLoginSuccess) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddFieldPage()),
+                  );
+                }
+              },
             )),
       )),
     );
   }
 
-  buildRegisterForm() {
+  buildLoginForm() {
     return Form(
-      key: formRegister,
+      key: formLogin,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
@@ -87,7 +102,7 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
             child: TextFormField(
               controller: dniTextController,
               decoration: const InputDecoration(
@@ -104,7 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
             child: TextFormField(
               controller: passTextController,
               obscureText: true,
@@ -122,19 +137,23 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
             child: SizedBox(
               width: double.infinity,
+              height: 50,
               child: ElevatedButton(
                 style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(
-                      Color.fromRGBO(129, 129, 129, 0.612)),
+                  backgroundColor:
+                      MaterialStatePropertyAll(Color.fromRGBO(33, 33, 33, 1)),
                 ),
-                child: Text('Login'.toUpperCase()),
+                child: Text(
+                  'Get Started'.toUpperCase(),
+                  style: const TextStyle(color: Colors.white),
+                ),
                 onPressed: () {
-                  if (formRegister.currentState!.validate()) {
-                    registerBloc.add(DoRegisterEvent(
-                        passTextController.text, dniTextController.text));
+                  if (formLogin.currentState!.validate()) {
+                    loginBloc.add(DoLoginEvent(
+                        dniTextController.text, passTextController.text));
                   }
                 },
               ),
@@ -145,11 +164,14 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           Center(
               child: InkWell(
-            child: const Text("You dont have an account?"),
+            child: const Text(
+              "You dont have an account?",
+              style: TextStyle(color: Color.fromARGB(255, 22, 114, 189)),
+            ),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const AddFieldPage()),
+                MaterialPageRoute(builder: (context) => const RegisterPage()),
               );
             },
           )),

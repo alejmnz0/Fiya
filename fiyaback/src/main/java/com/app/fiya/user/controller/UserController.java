@@ -97,7 +97,7 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtProvider.generateToken(authentication);
         User user = (User) authentication.getPrincipal();
-        return ResponseEntity.status(HttpStatus.CREATED).body(JwtUserResponse.of(user, token));
+        return ResponseEntity.status(HttpStatus.OK).body(JwtUserResponse.of(user, token));
     }
 
 }

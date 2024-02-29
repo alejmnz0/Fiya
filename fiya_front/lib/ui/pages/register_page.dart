@@ -1,6 +1,7 @@
-import 'package:fiya_front/bloc/user_bloc/register_bloc.dart';
+import 'package:fiya_front/bloc/register_bloc/register_bloc.dart';
 import 'package:fiya_front/repositories/user_repository_impl.dart';
 import 'package:fiya_front/ui/pages/add_field_page.dart';
+import 'package:fiya_front/ui/pages/login_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fiya_front/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
           child: Container(
         decoration: const BoxDecoration(
@@ -69,7 +71,15 @@ class _RegisterPageState extends State<RegisterPage> {
                 }
                 return Center(child: buildRegisterForm());
               },
-              listener: (BuildContext context, RegisterState state) {},
+              listener: (BuildContext context, RegisterState state) {
+                if (state is DoRegisterSuccess) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddFieldPage()),
+                  );
+                }
+              },
             )),
       )),
     );
@@ -84,9 +94,9 @@ class _RegisterPageState extends State<RegisterPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 80.0),
+            padding: EdgeInsets.symmetric(horizontal: 50.0),
             child: Text(
-              'Create an account',
+              'Create account',
               textAlign: TextAlign.start,
               style: TextStyle(fontSize: 40),
             ),
@@ -95,7 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
             child: TextFormField(
               controller: nameTextController,
               decoration: const InputDecoration(
@@ -112,7 +122,7 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
             child: TextFormField(
               controller: dniTextController,
               decoration: const InputDecoration(
@@ -129,7 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
             child: TextFormField(
               controller: emailTextController,
               decoration: const InputDecoration(
@@ -146,7 +156,7 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
             child: TextFormField(
               controller: passTextController,
               obscureText: true,
@@ -164,7 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
             child: TextFormField(
               controller: rpassTextController,
               obscureText: true,
@@ -182,7 +192,7 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
             child: TextFormField(
               controller: birthdateTextController,
               decoration: const InputDecoration(
@@ -190,7 +200,7 @@ class _RegisterPageState extends State<RegisterPage> {
               validator: (value) {
                 if (value == null ||
                     value.compareTo(birthDate.toString()) == 0) {
-                  return 'Please enter some text';
+                  return 'Please select a date';
                 }
                 return null;
               },
@@ -215,23 +225,27 @@ class _RegisterPageState extends State<RegisterPage> {
             height: 20,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 80.0),
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
             child: SizedBox(
               width: double.infinity,
+              height: 50,
               child: ElevatedButton(
                 style: const ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll(
-                      Color.fromRGBO(129, 129, 129, 0.612)),
+                  backgroundColor:
+                      MaterialStatePropertyAll(Color.fromRGBO(33, 33, 33, 1)),
                 ),
-                child: Text('Get Started'.toUpperCase()),
+                child: Text(
+                  'Get Started'.toUpperCase(),
+                  style: const TextStyle(color: Colors.white),
+                ),
                 onPressed: () {
                   if (formRegister.currentState!.validate()) {
                     registerBloc.add(DoRegisterEvent(
+                        dniTextController.text,
                         nameTextController.text,
+                        emailTextController.text,
                         passTextController.text,
                         rpassTextController.text,
-                        emailTextController.text,
-                        dniTextController.text,
                         birthdateTextController.text));
                   }
                 },
@@ -243,11 +257,12 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           Center(
               child: InkWell(
-            child: const Text("Already have an account?"),
+            child: const Text("Already have an account?",
+                style: TextStyle(color: Color.fromARGB(255, 22, 114, 189))),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const AddFieldPage()),
+                MaterialPageRoute(builder: (context) => const LoginPage()),
               );
             },
           )),
