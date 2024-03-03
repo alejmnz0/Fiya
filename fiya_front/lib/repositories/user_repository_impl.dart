@@ -13,7 +13,7 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<RegisterResponse> registerUser(RegisterDto registerDto) async {
     final response =
-        await _httpClient.post(Uri.parse('http://10.0.2.2:8080/register'),
+        await _httpClient.post(Uri.parse('http://localhost:8080/register'),
             headers: <String, String>{
               'Content-Type': 'application/json',
             },
@@ -30,7 +30,7 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<LoginResponse> loginUser(LoginDto loginDto) async {
     final response =
-        await _httpClient.post(Uri.parse('http://10.0.2.2:8080/login'),
+        await _httpClient.post(Uri.parse('http://localhost:8080/login'),
             headers: <String, String>{
               'Content-Type': 'application/json',
             },

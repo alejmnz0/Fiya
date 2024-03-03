@@ -1,6 +1,6 @@
 import 'package:fiya_front/bloc/login_bloc/login_bloc.dart';
 import 'package:fiya_front/repositories/user_repository_impl.dart';
-import 'package:fiya_front/ui/pages/add_field_page.dart';
+import 'package:fiya_front/ui/pages/home_page.dart';
 import 'package:fiya_front/ui/pages/register_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fiya_front/repositories/user_repository.dart';
@@ -72,8 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                 if (state is DoLoginSuccess) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const AddFieldPage()),
+                    MaterialPageRoute(builder: (context) => const HomePage()),
                   );
                 }
               },

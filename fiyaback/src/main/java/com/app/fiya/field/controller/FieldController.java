@@ -1,6 +1,8 @@
 package com.app.fiya.field.controller;
 
+import com.app.fiya.MyPage;
 import com.app.fiya.field.dto.AddField;
+import com.app.fiya.field.dto.FieldListResponse;
 import com.app.fiya.field.service.FieldService;
 import com.app.fiya.user.model.User;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -11,12 +13,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,5 +47,10 @@ public class FieldController {
     public ResponseEntity<AddField> addField (@Valid @RequestBody AddField data) {
         fieldService.save(data);
         return ResponseEntity.status(HttpStatus.CREATED).body(data);
+    }
+
+    @GetMapping("/")
+    public MyPage<FieldListResponse> getAll (@PageableDefault(page = 0, size = 10) Pageable pageable){
+        return fieldService.getAll(pageable);
     }
 }

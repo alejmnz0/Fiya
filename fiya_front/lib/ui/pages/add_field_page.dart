@@ -1,4 +1,4 @@
-import 'package:fiya_front/bloc/fied_bloc/add_field_bloc.dart';
+import 'package:fiya_front/bloc/add-field-bloc/add_field_bloc.dart';
 import 'package:fiya_front/repositories/field_repository.dart';
 import 'package:fiya_front/repositories/field_repository_impl.dart';
 import 'package:flutter/material.dart';

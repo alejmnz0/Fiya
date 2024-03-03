@@ -6,7 +6,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -23,5 +22,10 @@ public class Field {
     private String name;
     private String latitude;
     private String longitude;
-    private Set<Date> dates;
+    private String description;
+
+    private double price;
+    private int teamCapacity;
+    private Ground ground;
+    //private Set<Date> dates;
 }

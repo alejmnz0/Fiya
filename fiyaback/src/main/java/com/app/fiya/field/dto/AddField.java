@@ -1,5 +1,7 @@
 package com.app.fiya.field.dto;
 
+import com.app.fiya.field.model.Ground;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -26,4 +28,18 @@ public class AddField {
     @NotNull(message = "{AddField.longitude.nonempty}")
     @NotEmpty(message = "{AddField.longitude.nonempty}")
     private String longitude;
+
+    @NotNull
+    @NotEmpty
+    @Min(value = 0)
+    private double price;
+
+    @NotNull
+    @NotEmpty
+    @Min(value = 0)
+    private int teamCapacity;
+
+    @NotNull
+    @NotEmpty
+    private Ground ground;
 }

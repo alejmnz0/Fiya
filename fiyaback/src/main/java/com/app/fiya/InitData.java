@@ -1,5 +1,9 @@
 package com.app.fiya;
 
+import com.app.fiya.date.model.Date;
+import com.app.fiya.field.model.Field;
+import com.app.fiya.field.model.Ground;
+import com.app.fiya.field.repository.FieldRepository;
 import com.app.fiya.user.model.User;
 import com.app.fiya.user.model.UserRole;
 import com.app.fiya.user.repository.UserRepository;
@@ -9,16 +13,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
 public class InitData {
     private final UserRepository userRepository;
+    private final FieldRepository fieldRepository;
     private final PasswordEncoder passwordEncoder;
 
 
     @PostConstruct
-    public void InitDat() {
+    public void InitData() {
         User user = User.builder()
                 .name("Alejandro")
                 .dni("29516575P")
@@ -28,5 +35,121 @@ public class InitData {
                 .role(UserRole.USER)
                 .build();
         userRepository.save(user);
+
+        fieldRepository.save(Field.builder()
+                .name("Los corrales futbol")
+                .latitude("123")
+                .longitude("321")
+                .price(40)
+                .teamCapacity(7)
+                .ground(Ground.CLAY)
+                //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
+                .build());
+
+        fieldRepository.save(Field.builder()
+                .name("Campo de Futbol Los mares")
+                .latitude("3123")
+                .longitude("3213")
+                .price(40)
+                .teamCapacity(7)
+                .ground(Ground.CONCRETE)
+                //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
+                .build());
+
+        fieldRepository.save(Field.builder()
+                .name("Campo de ejemplo")
+                .latitude("3123")
+                .longitude("3213")
+                .price(40)
+                .teamCapacity(7)
+                .ground(Ground.NATURAL)
+                //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
+                .build());
+
+
+        fieldRepository.save(Field.builder()
+                .name("Campo de futbol bonito")
+                .latitude("3123")
+                .longitude("3213")
+                .price(40)
+                .teamCapacity(7)
+                .ground(Ground.ARTIFICIAL)
+                //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
+                .build());
+
+        fieldRepository.save(Field.builder()
+                .name("SuperFutbol camp")
+                .latitude("3123")
+                .longitude("3213")
+                .price(30)
+                .teamCapacity(5)
+                .ground(Ground.ARTIFICIAL)
+                //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
+                .build());
+
+        fieldRepository.save(Field.builder()
+                .name("Campete futbol")
+                .latitude("3123")
+                .longitude("3213")
+                .price(42)
+                .teamCapacity(7)
+                .ground(Ground.CONCRETE)
+                //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
+                .build());
+
+        fieldRepository.save(Field.builder()
+                .name("Futbol a montones")
+                .latitude("3123")
+                .longitude("3213")
+                .price(30)
+                .teamCapacity(7)
+                .ground(Ground.CLAY)
+                //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
+                .build());
+
+        fieldRepository.save(Field.builder()
+                .name("Campo de futbol de triana")
+                .latitude("3123")
+                .longitude("3213")
+                .price(40)
+                .teamCapacity(7)
+                .ground(Ground.PARQUET)
+                //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
+                .build());
+
+
+        fieldRepository.save(Field.builder()
+                .name("Futbol San Jose camp")
+                .latitude("3123")
+                .longitude("3213")
+                .price(50)
+                .teamCapacity(11)
+                .ground(Ground.NATURAL)
+                //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
+                .build());
+
+
+        fieldRepository.save(Field.builder()
+                .name("Campo Sevilla centro")
+                .latitude("3123")
+                .longitude("3213")
+                .price(45)
+                .teamCapacity(11)
+                .ground(Ground.CONCRETE)
+                //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
+                .build());
+
+
+        fieldRepository.save(Field.builder()
+                .name("Campo futbol sevilla camp")
+                .latitude("3123")
+                .longitude("3213")
+                .price(34)
+                .teamCapacity(7)
+                .ground(Ground.PARQUET)
+                //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
+                .build());
+
+
     }
 }
