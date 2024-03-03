@@ -4,6 +4,7 @@ import com.app.fiya.date.model.Date;
 import com.app.fiya.field.model.Field;
 import com.app.fiya.field.model.Ground;
 import com.app.fiya.field.repository.FieldRepository;
+import com.app.fiya.rent.model.Rent;
 import com.app.fiya.user.model.User;
 import com.app.fiya.user.model.UserRole;
 import com.app.fiya.user.repository.UserRepository;
@@ -36,6 +37,7 @@ public class InitData {
                 .build();
         userRepository.save(user);
 
+
         fieldRepository.save(Field.builder()
                 .name("Los corrales futbol")
                 .latitude("123")
@@ -45,6 +47,13 @@ public class InitData {
                 .ground(Ground.CLAY)
                 //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
                 .build());
+
+        Rent r = Rent.builder()
+                .field(fieldRepository.findById(1L).get())
+                .rentTime(LocalDateTime.of(2024, 4, 12, 12, 0))
+                .build();
+
+        fieldRepository.findById(1L).get().setRenting(Set.of(r));
 
         fieldRepository.save(Field.builder()
                 .name("Campo de Futbol Los mares")

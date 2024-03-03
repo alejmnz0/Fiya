@@ -2,6 +2,7 @@ package com.app.fiya.field.controller;
 
 import com.app.fiya.MyPage;
 import com.app.fiya.field.dto.AddField;
+import com.app.fiya.field.dto.FieldDetailResponse;
 import com.app.fiya.field.dto.FieldListResponse;
 import com.app.fiya.field.service.FieldService;
 import com.app.fiya.user.model.User;
@@ -18,6 +19,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -49,8 +53,37 @@ public class FieldController {
         return ResponseEntity.status(HttpStatus.CREATED).body(data);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fields obtained successfully", content = {
+                    @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = User.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                    "name": "Campo Los corrales",
+                                                    "latitude": "37.419068"
+                                                    "longitude": "-5.969218"
+                                                }
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "Fields not found",
+                    content = @Content)
+    })
     @GetMapping("/")
     public MyPage<FieldListResponse> getAll (@PageableDefault(page = 0, size = 10) Pageable pageable){
         return fieldService.getAll(pageable);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<FieldDetailResponse> getField (@PathVariable Long id){
+        FieldDetailResponse data = fieldService.getFieldById(id);
+        URI createdUri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(data.getId()).toUri();
+
+        return ResponseEntity.ok().body(data);
     }
 }

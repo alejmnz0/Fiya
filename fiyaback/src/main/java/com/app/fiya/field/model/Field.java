@@ -1,9 +1,7 @@
 package com.app.fiya.field.model;
 
-import com.app.fiya.date.model.Date;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.app.fiya.rent.model.Rent;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Set;
@@ -27,5 +25,7 @@ public class Field {
     private double price;
     private int teamCapacity;
     private Ground ground;
-    //private Set<Date> dates;
+
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Rent> renting;
 }

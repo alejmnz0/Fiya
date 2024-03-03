@@ -4,6 +4,7 @@ import com.app.fiya.MyPage;
 import com.app.fiya.date.model.Date;
 import com.app.fiya.exception.NotFoundException;
 import com.app.fiya.field.dto.AddField;
+import com.app.fiya.field.dto.FieldDetailResponse;
 import com.app.fiya.field.dto.FieldListResponse;
 import com.app.fiya.field.model.Field;
 import com.app.fiya.field.repository.FieldRepository;
@@ -37,5 +38,13 @@ public class FieldService {
             throw new NotFoundException("Field");
         Page<FieldListResponse> response = result.map(FieldListResponse::of);
         return MyPage.of(response);
+    }
+
+    public FieldDetailResponse getFieldById (Long id) {
+        Optional<Field> data = fieldRepository.findById(id);
+        if (data.isEmpty())
+            throw new NotFoundException("Field");
+
+        return FieldDetailResponse.of(data.get());
     }
 }
