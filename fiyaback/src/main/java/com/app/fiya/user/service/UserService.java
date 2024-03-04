@@ -2,6 +2,7 @@ package com.app.fiya.user.service;
 
 import com.app.fiya.user.dto.UserRegister;
 import com.app.fiya.user.model.User;
+import com.app.fiya.user.model.UserRole;
 import com.app.fiya.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +28,7 @@ public class UserService {
                 .password(passwordEncoder.encode(data.getPassword()))
                 .name(data.getName())
                 .email(data.getEmail())
+                .role(UserRole.USER)
                 .build()));
     }
 

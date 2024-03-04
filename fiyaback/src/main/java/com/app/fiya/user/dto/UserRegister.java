@@ -51,9 +51,12 @@ public class UserRegister {
     @NotEmpty(message = "{UserRegister.password.nonempty}")
     private String repeatPassword;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =  "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =  "M/d/yyyy")
     @LocalDateNotNull
     private LocalDate birthdate;
+
+    @JsonView({UserResponse.class})
+    private String token;
 
     public static UserRegister fromUser (User user){
         return UserRegister.builder()

@@ -1,17 +1,25 @@
 class UserResponse {
   String? id;
   String? image;
+  String? email;
   String? name;
   String? birthdate;
   String? dni;
   String? rol;
 
   UserResponse(
-      {this.id, this.image, this.name, this.birthdate, this.dni, this.rol});
+      {this.id,
+      this.image,
+      this.email,
+      this.name,
+      this.birthdate,
+      this.dni,
+      this.rol});
 
   UserResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     image = json['image'];
+    email = json['email'];
     name = json['name'];
     birthdate = json['birthdate'];
     dni = json['dni'];
@@ -22,6 +30,7 @@ class UserResponse {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['image'] = this.image;
+    data['email'] = this.email;
     data['name'] = this.name;
     data['birthdate'] = this.birthdate;
     data['dni'] = this.dni;

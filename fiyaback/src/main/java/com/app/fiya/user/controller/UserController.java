@@ -44,6 +44,15 @@ public class UserController {
                                                     "name": "Alejandro Jiménez Fernández",
                                                     "dni": "25435123K"
                                                     "password": "123456789"
+                                                    "token": "eyJ0eXAiOiJKV1
+                                                              QiLCJhbGciOiJIUzUxMiJ9.eyJ
+                                                              zdWIiOiJmNTNmZDExYi1hMjhmLT
+                                                              Q3NDgtYTcyNS00MWM2MTdmYWYy
+                                                              ZjMiLCJpYXQiOjE3MDExOTgzNTg
+                                                              sImV4cCI6MTcwMTI4NDc1OH0.aQ
+                                                              6EYXHlHcUXAjKzSMXsXKOtpac3O
+                                                              Lrw9VkAYb31PtmRea8X2RrRzMci8k
+                                                              A-_BRG6U6Y9rX3Jyc8s0jXM8rbMw"
                                                 }
                                             """
                             )}
@@ -56,11 +65,13 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<UserRegister> userRegister (@Valid @RequestBody UserRegister data) {
         userService.saveUser(data);
+        String token = login(UserLogin.builder().dni(data.getDni()).password(data.getPassword()).build()).getBody().getToken();
+        data.setToken(token);
         return ResponseEntity.status(HttpStatus.CREATED).body(data);
     }
 
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Logged in correctly", content = {
+            @ApiResponse(responseCode = "200", description = "User obtained successfully", content = {
                     @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = User.class)),
                             examples = {@ExampleObject(
@@ -82,8 +93,8 @@ public class UserController {
                                             """
                             )}
                     )}),
-            @ApiResponse(responseCode = "401",
-                    description = "Invalid data",
+            @ApiResponse(responseCode = "404",
+                    description = "User not found",
                     content = @Content)
     })
     @PostMapping("/login")
@@ -101,9 +112,30 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(JwtUserResponse.of(user, token));
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User created successfully", content = {
+                    @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = User.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                        "id": "6e625070-1ff9-41d2-b428-1164057bdd0d",
+                                                        "image": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                                                        "email": "user@user.es",
+                                                        "name": "User",
+                                                        "birthdate": "2004-06-11",
+                                                        "dni": "12345678A",
+                                                        "rol": "USER"
+                                                }
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid data",
+                    content = @Content)
+    })
     @GetMapping("/profile")
     public UserResponse getData (@AuthenticationPrincipal User data){
-        System.out.println(data.getName());
         return UserResponse.fromUser(data);
     }
 

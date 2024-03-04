@@ -1,6 +1,7 @@
 import 'package:fiya_front/bloc/register_bloc/register_bloc.dart';
 import 'package:fiya_front/repositories/user_repository_impl.dart';
 import 'package:fiya_front/ui/pages/add_field_page.dart';
+import 'package:fiya_front/ui/pages/home_page.dart';
 import 'package:fiya_front/ui/pages/login_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fiya_front/repositories/user_repository.dart';
@@ -75,8 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 if (state is DoRegisterSuccess) {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const AddFieldPage()),
+                    MaterialPageRoute(builder: (context) => const HomePage()),
                   );
                 }
               },

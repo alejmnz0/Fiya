@@ -1,12 +1,12 @@
-import 'package:fiya_front/ui/pages/home_page.dart';
+import 'package:fiya_front/ui/pages/register_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const Fiya());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Fiya extends StatelessWidget {
+  const Fiya({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const RegisterPage(),
     );
   }
 }

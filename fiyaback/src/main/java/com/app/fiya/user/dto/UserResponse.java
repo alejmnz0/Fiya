@@ -16,6 +16,7 @@ public class UserResponse {
 
     protected String id;
     protected String image;
+    protected String email;
     protected String name;
     protected LocalDate birthdate;
     protected String dni;
@@ -26,6 +27,7 @@ public class UserResponse {
         return UserResponse.builder()
                 .id(user.getId().toString())
                 .image(user.getImage())
+                .email(user.getEmail())
                 .name(user.getName())
                 .birthdate(user.getBirthdate())
                 .dni(user.getDni())

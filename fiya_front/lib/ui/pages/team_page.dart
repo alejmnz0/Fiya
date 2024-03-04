@@ -10,6 +10,8 @@ class TeamPage extends StatefulWidget {
 class _TeamPageState extends State<TeamPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold(
+      body: Center(child: Text("Work in progress...")),
+    );
   }
 }

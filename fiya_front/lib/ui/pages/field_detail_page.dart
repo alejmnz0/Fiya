@@ -153,6 +153,64 @@ class _FieldDetailPageState extends State<FieldDetailPage> {
               padding: const EdgeInsets.all(5),
               child: Column(
                 children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.monetization_on),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Text(
+                                "Precio total alquiler: ${state.field.price}€",
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.groups),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Text(
+                                "Cada equipo: ${state.field.teamCapacity} jugadores",
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.grass_rounded),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Text(
+                                "Terreno de juego: ${state.field.ground!}",
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                   TableCalendar(
                     focusedDay: _focusedDay,
                     firstDay: DateTime.utc(2024, 3, 3),
