@@ -28,8 +28,9 @@ public class InitData {
     @PostConstruct
     public void InitData() {
         User user = User.builder()
-                .name("Alejandro")
+                .name("Alejandro Jiménez")
                 .dni("29516575P")
+                .image("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")
                 .email("jimenezalejandro505@gmail.com")
                 .birthdate(LocalDate.of(2004, 6, 11))
                 .password(passwordEncoder.encode("123456789"))

@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -13,6 +15,9 @@ import lombok.experimental.SuperBuilder;
 public class UserResponse {
 
     protected String id;
+    protected String image;
+    protected String name;
+    protected LocalDate birthdate;
     protected String dni;
     protected String rol;
 
@@ -20,8 +25,11 @@ public class UserResponse {
 
         return UserResponse.builder()
                 .id(user.getId().toString())
+                .image(user.getImage())
+                .name(user.getName())
+                .birthdate(user.getBirthdate())
                 .dni(user.getDni())
-                //.rol((user.getRoles().stream().findFirst().isPresent()) ? user.getRoles().stream().findFirst().get().toString() : "USER" )
+                .rol(user.getRole().toString())
                 .build();
     }
 }

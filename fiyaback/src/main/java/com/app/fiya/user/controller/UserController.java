@@ -4,6 +4,7 @@ import com.app.fiya.security.jwt.access.JwtProvider;
 import com.app.fiya.user.dto.JwtUserResponse;
 import com.app.fiya.user.dto.UserLogin;
 import com.app.fiya.user.dto.UserRegister;
+import com.app.fiya.user.dto.UserResponse;
 import com.app.fiya.user.model.User;
 import com.app.fiya.user.service.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -20,13 +21,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
@@ -98,6 +99,12 @@ public class UserController {
         String token = jwtProvider.generateToken(authentication);
         User user = (User) authentication.getPrincipal();
         return ResponseEntity.status(HttpStatus.OK).body(JwtUserResponse.of(user, token));
+    }
+
+    @GetMapping("/profile")
+    public UserResponse getData (@AuthenticationPrincipal User data){
+        System.out.println(data.getName());
+        return UserResponse.fromUser(data);
     }
 
 }
