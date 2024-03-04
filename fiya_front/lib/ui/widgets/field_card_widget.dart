@@ -1,4 +1,4 @@
-import 'package:fiya_front/models/field/feild_page_response.dart';
+import 'package:fiya_front/models/field/field_page_response.dart';
 import 'package:fiya_front/ui/pages/field_detail_page.dart';
 import 'package:flutter/material.dart';
 
