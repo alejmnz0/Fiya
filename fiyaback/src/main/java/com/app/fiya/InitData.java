@@ -53,7 +53,7 @@ public class InitData {
                 .rentTime(LocalDateTime.of(2024, 4, 12, 12, 0))
                 .build();
 
-        fieldRepository.findById(1L).get().setRenting(Set.of(r));
+        //fieldRepository.findById(1L).get().setRenting(Set.of(r));
 
         fieldRepository.save(Field.builder()
                 .name("Campo de Futbol Los mares")

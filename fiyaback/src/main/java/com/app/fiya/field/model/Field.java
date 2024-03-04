@@ -26,6 +26,6 @@ public class Field {
     private int teamCapacity;
     private Ground ground;
 
-    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<Rent> renting;
+    //@OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //private Set<Rent> renting;
 }

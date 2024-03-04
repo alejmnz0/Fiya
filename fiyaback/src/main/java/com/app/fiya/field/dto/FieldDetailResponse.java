@@ -24,7 +24,7 @@ public class FieldDetailResponse {
     private int teamCapacity;
     private String ground;
     private String description;
-    private Set<RentResponse> renting;
+    //private Set<RentResponse> renting;
 
     public static FieldDetailResponse of (Field data){
         return FieldDetailResponse.builder()
@@ -36,7 +36,7 @@ public class FieldDetailResponse {
                 .teamCapacity(data.getTeamCapacity())
                 .ground(data.getGround().toString())
                 .description(data.getDescription())
-                .renting(data.getRenting().stream().map(RentResponse::of).collect(Collectors.toSet()))
+                //.renting(data.getRenting().stream().map(RentResponse::of).collect(Collectors.toSet()))
                 .build();
     }
 }
