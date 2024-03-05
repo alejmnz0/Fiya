@@ -15,8 +15,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final formLogin = GlobalKey<FormState>();
-  final dniTextController = TextEditingController();
-  final passTextController = TextEditingController();
+  final dniTextController = TextEditingController(text: '29516575P');
+  final passTextController = TextEditingController(text: '123456789');
 
   late UserRepository userRepo;
   late LoginBloc loginBloc;

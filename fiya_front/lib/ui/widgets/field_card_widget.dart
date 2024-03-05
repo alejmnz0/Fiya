@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 class FieldCardWidget extends StatelessWidget {
   final Field field;
   final int index;
+  final bool favourite;
 
-  const FieldCardWidget({super.key, required this.field, required this.index});
+  const FieldCardWidget(
+      {super.key,
+      required this.field,
+      required this.index,
+      required this.favourite});
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +94,17 @@ class FieldCardWidget extends StatelessWidget {
                                       color: Colors.black,
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 25),
+                                child: GestureDetector(
+                                  onTap: () {},
+                                  child: Icon(
+                                    Icons.star,
+                                    color:
+                                        favourite ? Colors.yellow : Colors.grey,
+                                  ),
                                 ),
                               ),
                             ],

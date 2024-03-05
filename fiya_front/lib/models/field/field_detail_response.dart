@@ -3,7 +3,7 @@ class FieldDetailResponse {
   String? name;
   String? latitude;
   String? longitude;
-  int? price;
+  double? price;
   int? teamCapacity;
   String? ground;
   String? description;

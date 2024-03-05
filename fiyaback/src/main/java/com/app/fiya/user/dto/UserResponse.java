@@ -1,5 +1,7 @@
 package com.app.fiya.user.dto;
 
+import com.app.fiya.MyPage;
+import com.app.fiya.field.dto.FieldListResponse;
 import com.app.fiya.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -19,6 +22,7 @@ public class UserResponse {
     protected String email;
     protected String name;
     protected LocalDate birthdate;
+    protected Set<Long> favourites;
     protected String dni;
     protected String rol;
 
@@ -32,6 +36,7 @@ public class UserResponse {
                 .birthdate(user.getBirthdate())
                 .dni(user.getDni())
                 .rol(user.getRole().toString())
+                .favourites(user.getFavourites())
                 .build();
     }
 }

@@ -139,4 +139,9 @@ public class UserController {
         return UserResponse.fromUser(data);
     }
 
+    @PostMapping("/{fieldId}/fav")
+    public ResponseEntity<?> favourite (@PathVariable Long fieldId, @AuthenticationPrincipal User user) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.favourite(fieldId, user));
+    }
+
 }

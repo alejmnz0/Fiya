@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -38,6 +40,28 @@ public class UserService {
 
     public boolean existEmail(String email ) {
         return userRepository.getAllemail().stream().toList().contains(email);
+    }
+
+    public boolean favourite (Long fieldId, User user) {
+        Optional<User> optionalUser = userRepository.findById(user.getId());
+
+        if (optionalUser.isPresent()){
+            User existingUSer = optionalUser.get();
+            Set<Long> favourites = new HashSet<>();
+            if (existingUSer.getFavourites() != null){
+                favourites = existingUSer.getFavourites();
+            }
+
+            if (favourites.contains(fieldId)){
+                favourites.remove(fieldId);
+            } else {
+                favourites.add(fieldId);
+            }
+            existingUSer.setFavourites(favourites);
+            userRepository.save(existingUSer);
+            return true;
+        }
+        return false;
     }
 
 }

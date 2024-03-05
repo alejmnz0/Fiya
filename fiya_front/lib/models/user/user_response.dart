@@ -4,6 +4,7 @@ class UserResponse {
   String? email;
   String? name;
   String? birthdate;
+  List<int>? favourites;
   String? dni;
   String? rol;
 
@@ -13,6 +14,7 @@ class UserResponse {
       this.email,
       this.name,
       this.birthdate,
+      this.favourites,
       this.dni,
       this.rol});
 
@@ -22,6 +24,7 @@ class UserResponse {
     email = json['email'];
     name = json['name'];
     birthdate = json['birthdate'];
+    favourites = json['favourites'].cast<int>();
     dni = json['dni'];
     rol = json['rol'];
   }
@@ -33,6 +36,7 @@ class UserResponse {
     data['email'] = this.email;
     data['name'] = this.name;
     data['birthdate'] = this.birthdate;
+    data['favourites'] = this.favourites;
     data['dni'] = this.dni;
     data['rol'] = this.rol;
     return data;

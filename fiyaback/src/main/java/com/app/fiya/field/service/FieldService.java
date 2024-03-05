@@ -40,6 +40,14 @@ public class FieldService {
         return MyPage.of(response);
     }
 
+    public MyPage<FieldListResponse> getFavFieldsByUser (Pageable pageable, User user) {
+        Page<Field> result = fieldRepository.getFavFieldsByUser(pageable, user.getFavourites());
+        if (result.isEmpty())
+            throw new NotFoundException("Field");
+        Page<FieldListResponse> response = result.map(FieldListResponse::of);
+        return MyPage.of(response);
+    }
+
     public FieldDetailResponse getFieldById (Long id) {
         Optional<Field> data = fieldRepository.findById(id);
         if (data.isEmpty())

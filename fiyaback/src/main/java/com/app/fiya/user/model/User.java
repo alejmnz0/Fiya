@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -53,6 +55,7 @@ public class User implements UserDetails {
     private String email;
     private String image;
     private LocalDate birthdate;
+    private Set<Long> favourites;
     private UserRole role = UserRole.USER;
     //private Team team;
 
