@@ -47,7 +47,7 @@ class _FieldPageState extends State<FieldPage> {
       } else if (state is FieldFetchError) {
         return Text(state.errorMessage);
       } else {
-        return const CircularProgressIndicator();
+        return const Center(child: CircularProgressIndicator());
       }
     });
   }

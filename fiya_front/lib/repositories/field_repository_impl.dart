@@ -12,9 +12,8 @@ class FieldRepositoryImpl extends FieldRepository {
 
   @override
   Future<FieldResponseDto> addField(AddFieldDto addFieldDto) async {
-    final response = await _httpClient.post(
-        Uri.parse('localhost:8080/field/add'),
-        body: addFieldDto.toJson());
+    final response = await _httpClient
+        .post(Uri.parse('10.0.2.2:8080/field/add'), body: addFieldDto.toJson());
 
     if (response.statusCode == 201) {
       final data = json.decode(response.body);
@@ -27,7 +26,7 @@ class FieldRepositoryImpl extends FieldRepository {
   @override
   Future<List<Field>> fetchList() async {
     final response =
-        await _httpClient.get(Uri.parse('http://localhost:8080/field/'));
+        await _httpClient.get(Uri.parse('http://10.0.2.2:8080/field/'));
     if (response.statusCode == 200) {
       return FieldPageResponse.fromJson(json.decode(response.body)).content!;
     } else {
@@ -38,7 +37,7 @@ class FieldRepositoryImpl extends FieldRepository {
   @override
   Future<FieldDetailResponse> getDetails(int id) async {
     final response =
-        await _httpClient.get(Uri.parse('http://localhost:8080/field/$id'));
+        await _httpClient.get(Uri.parse('http://10.0.2.2:8080/field/$id'));
     if (response.statusCode == 200) {
       final data = FieldDetailResponse.fromJson(json.decode(response.body));
       return data;

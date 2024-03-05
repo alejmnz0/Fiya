@@ -1,3 +1,5 @@
+import 'package:fiya_front/ui/pages/home_page.dart';
+import 'package:fiya_front/ui/pages/login_page.dart';
 import 'package:fiya_front/ui/pages/register_page.dart';
 import 'package:flutter/material.dart';
 
@@ -11,12 +13,12 @@ class Fiya extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Fiya App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
         useMaterial3: true,
       ),
-      home: const RegisterPage(),
+      home: const LoginPage(),
     );
   }
 }

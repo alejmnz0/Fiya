@@ -89,12 +89,15 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Center(child: Image.asset('assets/images/logo.jpeg', height: 150)),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 80.0),
-            child: Text(
-              'Login',
-              textAlign: TextAlign.start,
-              style: TextStyle(fontSize: 40),
+            child: Center(
+              child: Text(
+                'Login',
+                textAlign: TextAlign.start,
+                style: TextStyle(fontSize: 40),
+              ),
             ),
           ),
           const SizedBox(

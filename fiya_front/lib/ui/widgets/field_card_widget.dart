@@ -10,8 +10,6 @@ class FieldCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int delay = 100 * index;
-
     return SizedBox(
       child: GestureDetector(
         onTap: () {

@@ -185,7 +185,7 @@ class _ProfilePageState extends State<ProfilePage> {
         } else if (state is UserDetailError) {
           return Text(state.errorMessage);
         } else {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

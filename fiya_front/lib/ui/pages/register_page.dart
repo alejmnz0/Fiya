@@ -1,6 +1,5 @@
 import 'package:fiya_front/bloc/register_bloc/register_bloc.dart';
 import 'package:fiya_front/repositories/user_repository_impl.dart';
-import 'package:fiya_front/ui/pages/add_field_page.dart';
 import 'package:fiya_front/ui/pages/home_page.dart';
 import 'package:fiya_front/ui/pages/login_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,186 +87,194 @@ class _RegisterPageState extends State<RegisterPage> {
   buildRegisterForm() {
     return Form(
       key: formRegister,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 50.0),
-            child: Text(
-              'Create account',
-              textAlign: TextAlign.start,
-              style: TextStyle(fontSize: 40),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
-            child: TextFormField(
-              controller: nameTextController,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Name'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
-            child: TextFormField(
-              controller: dniTextController,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Dni'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
-            child: TextFormField(
-              controller: emailTextController,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Email'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
-            child: TextFormField(
-              controller: passTextController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Password'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
-            child: TextFormField(
-              controller: rpassTextController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Repeat password'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
-            child: TextFormField(
-              controller: birthdateTextController,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Birthday'),
-              validator: (value) {
-                if (value == null ||
-                    value.compareTo(birthDate.toString()) == 0) {
-                  return 'Please select a date';
-                }
-                return null;
-              },
-              onTap: () {
-                showDatePicker(
-                        context: context,
-                        firstDate: firstDate,
-                        lastDate: lastDate)
-                    .then((selectedDate) {
-                  if (selectedDate != null) {
-                    setState(() {
-                      birthDate = selectedDate;
-                      birthdateTextController.text =
-                          DateFormat.yMd().format(birthDate).toString();
-                    });
-                  }
-                });
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
-            child: SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                style: const ButtonStyle(
-                  backgroundColor:
-                      MaterialStatePropertyAll(Color.fromRGBO(33, 33, 33, 1)),
-                ),
+      child: ListView(children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(child: Image.asset('assets/images/logo.jpeg', height: 150)),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50.0),
+              child: Center(
                 child: Text(
-                  'Get Started'.toUpperCase(),
-                  style: const TextStyle(color: Colors.white),
+                  'Create account',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 40),
                 ),
-                onPressed: () {
-                  if (formRegister.currentState!.validate()) {
-                    registerBloc.add(DoRegisterEvent(
-                        dniTextController.text,
-                        nameTextController.text,
-                        emailTextController.text,
-                        passTextController.text,
-                        rpassTextController.text,
-                        birthdateTextController.text));
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              child: TextFormField(
+                controller: nameTextController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Name'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
                   }
+                  return null;
                 },
               ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Center(
-              child: InkWell(
-            child: const Text("Already have an account?",
-                style: TextStyle(color: Color.fromARGB(255, 22, 114, 189))),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginPage()),
-              );
-            },
-          )),
-        ],
-      ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              child: TextFormField(
+                controller: dniTextController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Dni'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              child: TextFormField(
+                controller: emailTextController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Email'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              child: TextFormField(
+                controller: passTextController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Password'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              child: TextFormField(
+                controller: rpassTextController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Repeat password'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              child: TextFormField(
+                controller: birthdateTextController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Birthday'),
+                validator: (value) {
+                  if (value == null ||
+                      value.compareTo(birthDate.toString()) == 0) {
+                    return 'Please select a date';
+                  }
+                  return null;
+                },
+                onTap: () {
+                  showDatePicker(
+                          context: context,
+                          firstDate: firstDate,
+                          lastDate: lastDate)
+                      .then((selectedDate) {
+                    if (selectedDate != null) {
+                      setState(() {
+                        birthDate = selectedDate;
+                        birthdateTextController.text =
+                            DateFormat.yMd().format(birthDate).toString();
+                      });
+                    }
+                  });
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              child: SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  style: const ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(Color.fromRGBO(33, 33, 33, 1)),
+                  ),
+                  child: Text(
+                    'Get Started'.toUpperCase(),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {
+                    if (formRegister.currentState!.validate()) {
+                      registerBloc.add(DoRegisterEvent(
+                          dniTextController.text,
+                          nameTextController.text,
+                          emailTextController.text,
+                          passTextController.text,
+                          rpassTextController.text,
+                          birthdateTextController.text));
+                    }
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Center(
+                child: InkWell(
+              child: const Text("Already have an account?",
+                  style: TextStyle(color: Color.fromARGB(255, 22, 114, 189))),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                );
+              },
+            )),
+            const SizedBox(
+              height: 20,
+            )
+          ],
+        ),
+      ]),
     );
   }
 }

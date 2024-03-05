@@ -72,7 +72,7 @@ public class FieldController {
                     content = @Content)
     })
     @GetMapping("/")
-    public MyPage<FieldListResponse> getAll (@PageableDefault(page = 0, size = 10) Pageable pageable){
+    public MyPage<FieldListResponse> getAll (@PageableDefault(page = 0, size = 20) Pageable pageable){
         return fieldService.getAll(pageable);
     }
 
