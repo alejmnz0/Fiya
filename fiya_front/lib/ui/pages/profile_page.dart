@@ -2,6 +2,7 @@ import 'package:fiya_front/bloc/user_bloc/user_bloc.dart';
 import 'package:fiya_front/repositories/user_repository.dart';
 import 'package:fiya_front/repositories/user_repository_impl.dart';
 import 'package:fiya_front/ui/pages/login_page.dart';
+import 'package:fiya_front/ui/widgets/field_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -145,6 +146,25 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ],
                         ),
+                        const SizedBox(height: 16),
+                        Container(
+                            height: 150,
+                            child: GridView.builder(
+                                scrollDirection: Axis.horizontal,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 1,
+                                        childAspectRatio: 0.4,
+                                        mainAxisSpacing: 10),
+                                itemCount: state.user.favourites!.length,
+                                itemBuilder: (context, index) {
+                                  final field = state.user.favourites![index];
+                                  return FieldCardWidget(
+                                    field: field,
+                                    index: index,
+                                    favourite: true,
+                                  );
+                                })),
                         const SizedBox(height: 16),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

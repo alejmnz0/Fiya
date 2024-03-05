@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:fiya_front/global_data.dart';
 import 'package:fiya_front/models/user/login_dto.dart';
 import 'package:fiya_front/models/user/login_response.dart';
@@ -59,6 +58,19 @@ class UserRepositoryImpl extends UserRepository {
       final data = UserResponse.fromJson(json.decode(response.body));
       return data;
     } else {
+      throw Exception('Failed to load User');
+    }
+  }
+
+  @override
+  void setFavourite(int fieldId) async {
+    final response = await _httpClient.post(
+      Uri.parse('http://10.0.2.2:8080/user/$fieldId/fav'),
+      headers: <String, String>{
+        'Authorization': 'Bearer ${GlobalData.token}',
+      },
+    );
+    if (response.statusCode != 200) {
       throw Exception('Failed to load User');
     }
   }

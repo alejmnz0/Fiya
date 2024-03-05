@@ -7,4 +7,5 @@ abstract class FieldRepository {
   Future<FieldResponseDto> addField(AddFieldDto addFieldDto);
   Future<List<Field>> fetchList();
   Future<FieldDetailResponse> getDetails(int id);
+  Future<List<Field>> fetchFavLIst();
 }

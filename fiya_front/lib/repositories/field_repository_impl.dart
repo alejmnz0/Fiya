@@ -45,4 +45,15 @@ class FieldRepositoryImpl extends FieldRepository {
       throw Exception('Failed to load Field');
     }
   }
+
+  @override
+  Future<List<Field>> fetchFavLIst() async {
+    final response = await _httpClient
+        .get(Uri.parse('http://10.0.2.2:8080/field/favourites'));
+    if (response.statusCode == 200) {
+      return FieldPageResponse.fromJson(json.decode(response.body)).content!;
+    } else {
+      throw Exception('Failed to load Fields');
+    }
+  }
 }

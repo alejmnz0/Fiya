@@ -12,6 +12,7 @@ class FieldBloc extends Bloc<FieldEvent, FieldState> {
   FieldBloc(this.fieldRepository) : super(FieldInitial()) {
     on<FieldFetchList>(onFieldFetchList);
     on<FieldViewDetail>(onFieldDetail);
+    on<FieldFavList>(onFavList);
   }
 
   void onFieldFetchList(FieldFetchList event, Emitter<FieldState> emit) async {
@@ -31,6 +32,16 @@ class FieldBloc extends Bloc<FieldEvent, FieldState> {
       return;
     } on Exception catch (e) {
       emit(FieldDetailError(e.toString()));
+    }
+  }
+
+  void onFavList(FieldFavList event, Emitter<FieldState> emit) async {
+    try {
+      final fieldList = await fieldRepository.fetchFavLIst();
+      emit(FieldFetchSuccess(fieldList));
+      return;
+    } on Exception catch (e) {
+      emit(FieldFetchError(e.toString()));
     }
   }
 }

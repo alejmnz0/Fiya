@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,7 +42,7 @@ public class FieldService {
     }
 
     public MyPage<FieldListResponse> getFavFieldsByUser (Pageable pageable, User user) {
-        Page<Field> result = fieldRepository.getFavFieldsByUser(pageable, user.getFavourites());
+        Page<Field> result = fieldRepository.getFavFieldsByUser(pageable, user.getFavourites().stream().map(Field::getId).collect(Collectors.toSet()));
         if (result.isEmpty())
             throw new NotFoundException("Field");
         Page<FieldListResponse> response = result.map(FieldListResponse::of);

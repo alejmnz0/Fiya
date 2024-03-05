@@ -8,4 +8,5 @@ abstract class UserRepository {
   Future<RegisterResponse> registerUser(RegisterDto registerDto);
   Future<LoginResponse> loginUser(LoginDto loginDto);
   Future<UserResponse> getDetailUser();
+  void setFavourite(int fieldId);
 }

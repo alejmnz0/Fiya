@@ -1,5 +1,6 @@
 package com.app.fiya.user.model;
 
+import com.app.fiya.field.model.Field;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -55,7 +56,10 @@ public class User implements UserDetails {
     private String email;
     private String image;
     private LocalDate birthdate;
-    private Set<Long> favourites;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Field> favourites;
+
     private UserRole role = UserRole.USER;
     //private Team team;
 

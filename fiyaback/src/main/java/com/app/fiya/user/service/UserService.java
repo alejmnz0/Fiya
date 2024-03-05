@@ -1,9 +1,12 @@
 package com.app.fiya.user.service;
 
+import com.app.fiya.field.model.Field;
+import com.app.fiya.field.repository.FieldRepository;
 import com.app.fiya.user.dto.UserRegister;
 import com.app.fiya.user.model.User;
 import com.app.fiya.user.model.UserRole;
 import com.app.fiya.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final FieldRepository fieldRepository;
     private final PasswordEncoder passwordEncoder;
 
     public Optional<User> findById(UUID userId) {return userRepository.findById(userId);}
@@ -42,23 +46,25 @@ public class UserService {
         return userRepository.getAllemail().stream().toList().contains(email);
     }
 
+
     public boolean favourite (Long fieldId, User user) {
         Optional<User> optionalUser = userRepository.findById(user.getId());
 
         if (optionalUser.isPresent()){
             User existingUSer = optionalUser.get();
-            Set<Long> favourites = new HashSet<>();
+            Set<Field> favourites = new HashSet<>();
             if (existingUSer.getFavourites() != null){
                 favourites = existingUSer.getFavourites();
             }
 
-            if (favourites.contains(fieldId)){
-                favourites.remove(fieldId);
+            if (favourites.contains(fieldRepository.findById(fieldId).orElseThrow())){
+                favourites.remove(fieldRepository.findById(fieldId).orElseThrow());
             } else {
-                favourites.add(fieldId);
+                favourites.add(fieldRepository.findById(fieldId).orElseThrow());
             }
             existingUSer.setFavourites(favourites);
             userRepository.save(existingUSer);
+            System.out.println(userRepository.findById(user.getId()).get().getFavourites().size());
             return true;
         }
         return false;

@@ -1,13 +1,17 @@
 import 'package:fiya_front/models/field/field_page_response.dart';
+import 'package:fiya_front/repositories/user_repository.dart';
+import 'package:fiya_front/repositories/user_repository_impl.dart';
 import 'package:fiya_front/ui/pages/field_detail_page.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class FieldCardWidget extends StatelessWidget {
   final Field field;
   final int index;
-  final bool favourite;
+  late bool favourite = false;
+  late UserRepository userRepository = UserRepositoryImpl();
 
-  const FieldCardWidget(
+  FieldCardWidget(
       {super.key,
       required this.field,
       required this.index,
@@ -99,7 +103,9 @@ class FieldCardWidget extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(left: 25),
                                 child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    userRepository.setFavourite(field.id!);
+                                  },
                                   child: Icon(
                                     Icons.star,
                                     color:

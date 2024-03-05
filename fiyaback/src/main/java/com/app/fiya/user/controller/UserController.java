@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -139,6 +140,7 @@ public class UserController {
         return UserResponse.fromUser(data);
     }
 
+    @Transactional
     @PostMapping("/{fieldId}/fav")
     public ResponseEntity<?> favourite (@PathVariable Long fieldId, @AuthenticationPrincipal User user) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.favourite(fieldId, user));

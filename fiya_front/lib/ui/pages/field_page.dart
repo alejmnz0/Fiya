@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:fiya_front/bloc/field-bloc/field_bloc.dart';
 import 'package:fiya_front/models/user/user_response.dart';
 import 'package:fiya_front/repositories/field_repository.dart';
@@ -20,13 +18,15 @@ class FieldPage extends StatefulWidget {
 class _FieldPageState extends State<FieldPage> {
   late FieldRepository fieldRepository;
   late UserRepository userRepository = UserRepositoryImpl();
-  List<int>? favourites;
+  List<int>? favourites = List.empty();
   late FieldBloc fieldBloc;
   String title = "Fields";
 
   void createListFavourite() async {
     UserResponse user = await userRepository.getDetailUser();
-    List<int>? favourites = user.favourites;
+    for (int i = 0; i < user.favourites!.length; i++) {
+      favourites?.add(user.favourites![i].id!);
+    }
   }
 
   @override

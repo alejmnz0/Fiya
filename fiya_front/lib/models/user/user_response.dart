@@ -1,10 +1,12 @@
+import 'package:fiya_front/models/field/field_page_response.dart';
+
 class UserResponse {
   String? id;
   String? image;
   String? email;
   String? name;
   String? birthdate;
-  List<int>? favourites;
+  List<Field>? favourites;
   String? dni;
   String? rol;
 
@@ -24,7 +26,12 @@ class UserResponse {
     email = json['email'];
     name = json['name'];
     birthdate = json['birthdate'];
-    favourites = json['favourites'].cast<int>();
+    if (json['favourites'] != null) {
+      favourites = <Field>[];
+      json['favourites'].forEach((v) {
+        favourites!.add(new Field.fromJson(v));
+      });
+    }
     dni = json['dni'];
     rol = json['rol'];
   }
@@ -36,7 +43,9 @@ class UserResponse {
     data['email'] = this.email;
     data['name'] = this.name;
     data['birthdate'] = this.birthdate;
-    data['favourites'] = this.favourites;
+    if (this.favourites != null) {
+      data['favourites'] = this.favourites!.map((v) => v.toJson()).toList();
+    }
     data['dni'] = this.dni;
     data['rol'] = this.rol;
     return data;

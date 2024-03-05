@@ -9,3 +9,5 @@ class FieldViewDetail extends FieldEvent {
   final int fieldId;
   FieldViewDetail(this.fieldId);
 }
+
+class FieldFavList extends FieldEvent {}

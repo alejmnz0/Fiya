@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Component
@@ -23,6 +24,7 @@ public class InitData {
     private final UserRepository userRepository;
     private final FieldRepository fieldRepository;
     private final PasswordEncoder passwordEncoder;
+    Set<Field> fav = new HashSet<>();
 
 
     @PostConstruct
@@ -32,6 +34,7 @@ public class InitData {
                 .dni("29516575P")
                 .image("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")
                 .email("jimenezalejandro505@gmail.com")
+                .favourites(fav)
                 .birthdate(LocalDate.of(2004, 6, 11))
                 .password(passwordEncoder.encode("123456789"))
                 .role(UserRole.USER)
