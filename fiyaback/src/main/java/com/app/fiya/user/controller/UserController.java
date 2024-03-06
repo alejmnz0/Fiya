@@ -1,10 +1,7 @@
 package com.app.fiya.user.controller;
 
 import com.app.fiya.security.jwt.access.JwtProvider;
-import com.app.fiya.user.dto.JwtUserResponse;
-import com.app.fiya.user.dto.UserLogin;
-import com.app.fiya.user.dto.UserRegister;
-import com.app.fiya.user.dto.UserResponse;
+import com.app.fiya.user.dto.*;
 import com.app.fiya.user.model.User;
 import com.app.fiya.user.service.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -140,10 +137,15 @@ public class UserController {
         return UserResponse.fromUser(data);
     }
 
-    @Transactional
     @PostMapping("/{fieldId}/fav")
     public ResponseEntity<?> favourite (@PathVariable Long fieldId, @AuthenticationPrincipal User user) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.favourite(fieldId, user));
     }
+
+    @PostMapping("/edit")
+    public ResponseEntity<?> editUser (@RequestBody UserEdit data, @AuthenticationPrincipal User user) {
+        userService.editUser(data, user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(data);
+    }   
 
 }

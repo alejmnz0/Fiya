@@ -30,10 +30,10 @@ public class InitData {
     @PostConstruct
     public void InitData() {
         User user = User.builder()
-                .name("Alejandro Jimenez Fernandez")
-                .dni("29516575P")
+                .name("John Doe")
+                .dni("12345678A")
                 .image("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")
-                .email("jimenezalejandro505@gmail.com")
+                .email("johndoe@gmail.com")
                 .favourites(fav)
                 .birthdate(LocalDate.of(2004, 6, 11))
                 .password(passwordEncoder.encode("123456789"))
@@ -60,7 +60,7 @@ public class InitData {
         //fieldRepository.findById(1L).get().setRenting(Set.of(r));
 
         fieldRepository.save(Field.builder()
-                .name("Campo de Futbol Los mares")
+                .name("Los mares futbol")
                 .latitude("3123")
                 .longitude("3213")
                 .price(40)

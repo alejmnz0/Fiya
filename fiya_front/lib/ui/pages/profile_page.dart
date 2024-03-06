@@ -1,3 +1,4 @@
+import 'package:fiya_front/bloc/register_bloc/register_bloc.dart';
 import 'package:fiya_front/bloc/user_bloc/user_bloc.dart';
 import 'package:fiya_front/repositories/user_repository.dart';
 import 'package:fiya_front/repositories/user_repository_impl.dart';
@@ -5,6 +6,7 @@ import 'package:fiya_front/ui/pages/login_page.dart';
 import 'package:fiya_front/ui/widgets/field_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,13 +16,25 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final formRegister = GlobalKey<FormState>();
+  final nameTextController = TextEditingController();
+  final emailTextController = TextEditingController();
+  final dniTextController = TextEditingController();
+  final rpassTextController = TextEditingController();
+  final passTextController = TextEditingController();
+  final lastDate = DateTime.now();
+  final firstDate = DateTime(1900, 1, 1);
+  DateTime birthDate = DateTime(2000, 1, 1);
+  final TextEditingController birthdateTextController = TextEditingController();
   late UserRepository userRepository;
   late UserBloc userBloc;
+  late RegisterBloc registerBloc;
 
   @override
   void initState() {
     userRepository = UserRepositoryImpl();
     userBloc = UserBloc(userRepository)..add(UserViewDetail());
+    registerBloc = RegisterBloc(userRepository);
     super.initState();
   }
 
@@ -33,6 +47,9 @@ class _ProfilePageState extends State<ProfilePage> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state is UserDetailSuccess) {
+          nameTextController.text = state.user.name!;
+          emailTextController.text = state.user.email!;
+          birthdateTextController.text = state.user.birthdate!;
           return Scaffold(
             body: Column(
               children: [
@@ -169,14 +186,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            /*
                             FloatingActionButton.extended(
-                              onPressed: () {},
+                              onPressed: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return buildRegisterForm(state);
+                                    });
+                              },
                               heroTag: 'edit',
+                              backgroundColor: Colors.lightBlueAccent,
                               elevation: 0,
                               label: const Text("Edit"),
                               icon: const Icon(Icons.edit),
-                            ), */
+                            ),
                             const SizedBox(width: 16.0),
                             FloatingActionButton.extended(
                               onPressed: () {
@@ -208,6 +231,126 @@ class _ProfilePageState extends State<ProfilePage> {
           return const Center(child: CircularProgressIndicator());
         }
       },
+    );
+  }
+
+  buildRegisterForm(UserDetailSuccess state) {
+    return Form(
+      key: formRegister,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 30,
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 50.0),
+            child: Center(
+              child: Text(
+                'Edit account',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 40),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
+            child: TextFormField(
+              controller: nameTextController,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Name'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
+            child: TextFormField(
+              controller: emailTextController,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Email'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+                return null;
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
+            child: TextFormField(
+              controller: birthdateTextController,
+              decoration: const InputDecoration(
+                  border: OutlineInputBorder(), labelText: 'Birthday'),
+              validator: (value) {
+                if (value == null ||
+                    value.compareTo(birthDate.toString()) == 0) {
+                  return 'Please select a date';
+                }
+                return null;
+              },
+              onTap: () {
+                showDatePicker(
+                        context: context,
+                        firstDate: firstDate,
+                        lastDate: lastDate)
+                    .then((selectedDate) {
+                  if (selectedDate != null) {
+                    setState(() {
+                      birthDate = selectedDate;
+                      birthdateTextController.text =
+                          DateFormat.yMd().format(birthDate).toString();
+                    });
+                  }
+                });
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 50.0),
+            child: SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                style: const ButtonStyle(
+                  backgroundColor:
+                      MaterialStatePropertyAll(Color.fromRGBO(33, 33, 33, 1)),
+                ),
+                child: Text(
+                  'Confirm'.toUpperCase(),
+                  style: const TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  userBloc.add(UserEdit(nameTextController.text,
+                      emailTextController.text, birthdateTextController.text));
+                },
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+        ],
+      ),
     );
   }
 }

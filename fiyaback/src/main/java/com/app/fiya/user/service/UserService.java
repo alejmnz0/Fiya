@@ -2,6 +2,7 @@ package com.app.fiya.user.service;
 
 import com.app.fiya.field.model.Field;
 import com.app.fiya.field.repository.FieldRepository;
+import com.app.fiya.user.dto.UserEdit;
 import com.app.fiya.user.dto.UserRegister;
 import com.app.fiya.user.model.User;
 import com.app.fiya.user.model.UserRole;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -70,4 +72,18 @@ public class UserService {
         return false;
     }
 
+    public Optional<User> editUser (UserEdit data, User user) {
+        String name = (data.getName() != null && !data.getName().isEmpty()) ? data.getName() : user.getName();
+        LocalDate birthdate = (data.getBirthdate() != null ? data.getBirthdate() : user.getBirthdate());
+        String email = (data.getEmail() != null && !data.getEmail().isEmpty()) ? data.getEmail() : user.getEmail();
+
+        Optional<User> newUser = userRepository.findById(user.getId());
+        if (newUser.isPresent()){
+            newUser.get().setName(name);
+            newUser.get().setBirthdate(birthdate);
+            newUser.get().setEmail(email);
+            return Optional.of(userRepository.save(newUser.get()));
+        }
+        return null;
+    }
 }

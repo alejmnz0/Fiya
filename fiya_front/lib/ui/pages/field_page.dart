@@ -33,6 +33,7 @@ class _FieldPageState extends State<FieldPage> {
   void initState() {
     fieldRepository = FieldRepositoryImpl();
     fieldBloc = FieldBloc(fieldRepository)..add(FieldFetchList());
+    createListFavourite();
     super.initState();
   }
 

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:fiya_front/global_data.dart';
+import 'package:fiya_front/models/user/edit_response.dart';
 import 'package:fiya_front/models/user/login_dto.dart';
 import 'package:fiya_front/models/user/login_response.dart';
 import 'package:fiya_front/models/user/register_dto.dart';
@@ -72,6 +73,23 @@ class UserRepositoryImpl extends UserRepository {
     );
     if (response.statusCode != 200) {
       throw Exception('Failed to load User');
+    }
+  }
+
+  @override
+  Future<EditResponse> editUser(EditResponse editResponse) async {
+    final response =
+        await _httpClient.post(Uri.parse('http://10.0.2.2:8080/user/edit'),
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ${GlobalData.token}',
+            },
+            body: json.encode(editResponse.toJson()));
+    if (response.statusCode != 200) {
+      final data = EditResponse.fromJson(json.decode(response.body));
+      return data;
+    } else {
+      throw Exception('Failed to edit User');
     }
   }
 }

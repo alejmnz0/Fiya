@@ -15,7 +15,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final formLogin = GlobalKey<FormState>();
-  final dniTextController = TextEditingController(text: '29516575P');
+  final dniTextController = TextEditingController(text: '12345678A');
   final passTextController = TextEditingController(text: '123456789');
 
   late UserRepository userRepo;
@@ -84,101 +84,103 @@ class _LoginPageState extends State<LoginPage> {
   buildLoginForm() {
     return Form(
       key: formLogin,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(child: Image.asset('assets/images/logo.jpeg', height: 150)),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 80.0),
-            child: Center(
-              child: Text(
-                'Login',
-                textAlign: TextAlign.start,
-                style: TextStyle(fontSize: 40),
+      child: ListView(children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(child: Image.asset('assets/images/logo.jpeg', height: 150)),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 80.0),
+              child: Center(
+                child: Text(
+                  'Login',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(fontSize: 40),
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
-            child: TextFormField(
-              controller: dniTextController,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Dni'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
+            const SizedBox(
+              height: 20,
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
-            child: TextFormField(
-              controller: passTextController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                  border: OutlineInputBorder(), labelText: 'Password'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                return null;
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 50.0),
-            child: SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                style: const ButtonStyle(
-                  backgroundColor:
-                      MaterialStatePropertyAll(Color.fromRGBO(33, 33, 33, 1)),
-                ),
-                child: Text(
-                  'Get Started'.toUpperCase(),
-                  style: const TextStyle(color: Colors.white),
-                ),
-                onPressed: () {
-                  if (formLogin.currentState!.validate()) {
-                    loginBloc.add(DoLoginEvent(
-                        dniTextController.text, passTextController.text));
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              child: TextFormField(
+                controller: dniTextController,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Dni'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
                   }
+                  return null;
                 },
               ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Center(
-              child: InkWell(
-            child: const Text(
-              "You dont have an account?",
-              style: TextStyle(color: Color.fromARGB(255, 22, 114, 189)),
+            const SizedBox(
+              height: 20,
             ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const RegisterPage()),
-              );
-            },
-          )),
-        ],
-      ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              child: TextFormField(
+                controller: passTextController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'Password'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 50.0),
+              child: SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  style: const ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll(Color.fromRGBO(33, 33, 33, 1)),
+                  ),
+                  child: Text(
+                    'Get Started'.toUpperCase(),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {
+                    if (formLogin.currentState!.validate()) {
+                      loginBloc.add(DoLoginEvent(
+                          dniTextController.text, passTextController.text));
+                    }
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Center(
+                child: InkWell(
+              child: const Text(
+                "You dont have an account?",
+                style: TextStyle(color: Color.fromARGB(255, 22, 114, 189)),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const RegisterPage()),
+                );
+              },
+            )),
+          ],
+        ),
+      ]),
     );
   }
 }

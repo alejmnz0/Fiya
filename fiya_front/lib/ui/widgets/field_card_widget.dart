@@ -1,9 +1,4 @@
-import 'package:fiya_front/models/field/field_page_response.dart';
-import 'package:fiya_front/repositories/user_repository.dart';
-import 'package:fiya_front/repositories/user_repository_impl.dart';
-import 'package:fiya_front/ui/pages/field_detail_page.dart';
-import 'package:flutter/material.dart';
-
+/*
 // ignore: must_be_immutable
 class FieldCardWidget extends StatelessWidget {
   final Field field;
@@ -17,6 +12,33 @@ class FieldCardWidget extends StatelessWidget {
       required this.index,
       required this.favourite});
 
+  
+}
+*/
+import 'package:fiya_front/models/field/field_page_response.dart';
+import 'package:fiya_front/repositories/user_repository.dart';
+import 'package:fiya_front/repositories/user_repository_impl.dart';
+import 'package:fiya_front/ui/pages/field_detail_page.dart';
+import 'package:flutter/material.dart';
+
+// ignore: must_be_immutable
+class FieldCardWidget extends StatefulWidget {
+  final Field field;
+  final int index;
+  late bool favourite;
+  FieldCardWidget(
+      {super.key,
+      required this.field,
+      required this.index,
+      required this.favourite});
+
+  @override
+  State<FieldCardWidget> createState() => _FieldCardWidgetState();
+}
+
+class _FieldCardWidgetState extends State<FieldCardWidget> {
+  late UserRepository userRepository = UserRepositoryImpl();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -25,7 +47,8 @@ class FieldCardWidget extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => FieldDetailPage(fieldId: field.id!)));
+                  builder: (context) =>
+                      FieldDetailPage(fieldId: widget.field.id!)));
         },
         onDoubleTap: () {},
         child: Card(
@@ -49,7 +72,7 @@ class FieldCardWidget extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                           child: Text(
-                            field.name!,
+                            widget.field.name!,
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 30,
@@ -65,7 +88,7 @@ class FieldCardWidget extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Text(
-                                  field.price.toString(),
+                                  widget.field.price.toString(),
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 20,
@@ -79,7 +102,7 @@ class FieldCardWidget extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Text(
-                                  field.teamCapacity.toString(),
+                                  widget.field.teamCapacity.toString(),
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 20,
@@ -93,7 +116,7 @@ class FieldCardWidget extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Text(
-                                  field.ground!,
+                                  widget.field.ground!,
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 20,
@@ -104,12 +127,14 @@ class FieldCardWidget extends StatelessWidget {
                                 padding: const EdgeInsets.only(left: 25),
                                 child: GestureDetector(
                                   onTap: () {
-                                    userRepository.setFavourite(field.id!);
+                                    userRepository
+                                        .setFavourite(widget.field.id!);
                                   },
                                   child: Icon(
                                     Icons.star,
-                                    color:
-                                        favourite ? Colors.yellow : Colors.grey,
+                                    color: widget.favourite
+                                        ? Colors.yellow
+                                        : Colors.grey,
                                   ),
                                 ),
                               ),
