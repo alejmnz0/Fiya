@@ -30,11 +30,14 @@ public class UserEdit {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =  "M/d/yyyy")
     private LocalDate birthdate;
 
+    private boolean isOnTeam;
+
     public static UserEdit fromUser (User user){
         return UserEdit.builder()
                 .name(user.getName())
                 .birthdate(user.getBirthdate())
                 .email(user.getEmail())
+                .isOnTeam(user.isOnTeam())
                 .build();
     }
 }
