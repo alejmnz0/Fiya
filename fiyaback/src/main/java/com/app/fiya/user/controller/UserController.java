@@ -137,11 +137,38 @@ public class UserController {
         return UserResponse.fromUser(data);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "true",
+                    content = @Content)
+    })
     @PostMapping("/{fieldId}/fav")
     public ResponseEntity<?> favourite (@PathVariable Long fieldId, @AuthenticationPrincipal User user) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.favourite(fieldId, user));
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User created successfully", content = {
+                    @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = User.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                        "id": "6e625070-1ff9-41d2-b428-1164057bdd0d",
+                                                        "image": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                                                        "email": "user@user.es",
+                                                        "name": "User",
+                                                        "birthdate": "2004-06-11",
+                                                        "dni": "12345678A",
+                                                        "rol": "USER"
+                                                }
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid data",
+                    content = @Content)
+    })
     @PostMapping("/edit")
     public ResponseEntity<?> editUser (@RequestBody UserEdit data, @AuthenticationPrincipal User user) {
         userService.editUser(data, user);

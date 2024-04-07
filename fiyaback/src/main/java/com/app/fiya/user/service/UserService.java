@@ -37,6 +37,7 @@ public class UserService {
                 .name(data.getName())
                 .email(data.getEmail())
                 .role(UserRole.USER)
+                .isOnTeam(false)
                 .build()));
     }
 
@@ -66,7 +67,6 @@ public class UserService {
             }
             existingUSer.setFavourites(favourites);
             userRepository.save(existingUSer);
-            System.out.println(userRepository.findById(user.getId()).get().getFavourites().size());
             return true;
         }
         return false;
@@ -76,14 +76,16 @@ public class UserService {
         String name = (data.getName() != null && !data.getName().isEmpty()) ? data.getName() : user.getName();
         LocalDate birthdate = (data.getBirthdate() != null ? data.getBirthdate() : user.getBirthdate());
         String email = (data.getEmail() != null && !data.getEmail().isEmpty()) ? data.getEmail() : user.getEmail();
+        boolean isOnTeam = data.isOnTeam();
 
         Optional<User> newUser = userRepository.findById(user.getId());
         if (newUser.isPresent()){
             newUser.get().setName(name);
             newUser.get().setBirthdate(birthdate);
             newUser.get().setEmail(email);
+            newUser.get().setOnTeam(isOnTeam);
             return Optional.of(userRepository.save(newUser.get()));
         }
-        return null;
+        return Optional.empty();
     }
 }

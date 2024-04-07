@@ -25,6 +25,7 @@ public class UserResponse {
     protected String name;
     protected LocalDate birthdate;
     protected Set<FieldFavResponse> favourites;
+    protected boolean isOnTeam;
     protected String dni;
     protected String rol;
 
@@ -39,6 +40,7 @@ public class UserResponse {
                 .dni(user.getDni())
                 .rol(user.getRole().toString())
                 .favourites(user.getFavourites().stream().map(FieldFavResponse::of).collect(Collectors.toSet()))
+                .isOnTeam(user.isOnTeam())
                 .build();
     }
 }

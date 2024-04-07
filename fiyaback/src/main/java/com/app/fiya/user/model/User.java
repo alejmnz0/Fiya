@@ -60,6 +60,8 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Field> favourites;
 
+    private boolean isOnTeam = false;
+
     private UserRole role = UserRole.USER;
     //private Team team;
 

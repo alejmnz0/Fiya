@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:fiya_front/models/user/edit_response.dart';
-import 'package:fiya_front/models/user/login_response.dart';
 import 'package:fiya_front/models/user/user_response.dart';
 import 'package:fiya_front/repositories/user_repository.dart';
 import 'package:meta/meta.dart';
