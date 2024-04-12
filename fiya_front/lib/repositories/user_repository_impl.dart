@@ -92,4 +92,16 @@ class UserRepositoryImpl extends UserRepository {
       throw Exception('Failed to edit User');
     }
   }
+
+  @override
+  void editOnTeam() async {
+    await _httpClient.post(Uri.parse('http://10.0.2.2:8080/user/edit'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${GlobalData.token}',
+        },
+        body: <String, bool>{
+          'onTeam': true,
+        });
+  }
 }
