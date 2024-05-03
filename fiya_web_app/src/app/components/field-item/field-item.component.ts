@@ -1,7 +1,7 @@
 import { Component, Input, TemplateRef } from '@angular/core';
-import { Field } from '../../models/field.interface';
-import { FieldService } from '../../services/field.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FieldService } from '../../services/field.service';
+import { Field } from '../../models/field.interface';
 
 @Component({
   selector: 'app-field-item',

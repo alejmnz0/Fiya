@@ -1,16 +1,13 @@
 import { Component } from '@angular/core';
 import { FieldService } from '../../services/field.service';
 import { Field } from '../../models/field.interface';
-import { FieldListComponent } from "../../components/field-list/field-list.component";
-import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-field',
-  templateUrl: './field.component.html',
-  styleUrl: './field.component.css',
+  selector: 'app-fields',
+  templateUrl: './fields.component.html',
+  styleUrl: './fields.component.css'
 })
-export class FieldComponent {
-
+export class FieldsComponent {
   nombre: string = '';
   latitud: string = '';
   longitud: string = '';
@@ -47,5 +44,4 @@ export class FieldComponent {
     }
     )
   }
-
 }
