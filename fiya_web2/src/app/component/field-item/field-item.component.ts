@@ -38,4 +38,10 @@ export class FieldItemComponent {
     this.teamCapacity = this.field.teamCapacity;
     this.ground = this.field.ground;
   }
+
+  delete() {
+    this.fieldService.deleteField(this.field.id).subscribe(ans => {
+      window.location.reload();
+    });
+  }
 }

@@ -59,4 +59,13 @@ public class FieldService {
 
         return FieldDetailResponse.of(data.get());
     }
+
+    public void delete (Long id){
+        Optional<Field> aborrar = fieldRepository.findById(id);
+
+        if (aborrar.isPresent())
+            fieldRepository.deleteById(id);
+        else
+            throw new NotFoundException("Field");
+    }
 }

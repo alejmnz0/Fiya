@@ -170,5 +170,14 @@ public class FieldController {
         return fieldService.getFavFieldsByUser(pageable, user);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Field deleted", content = @Content),
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteField(@PathVariable Long id){
+        fieldService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }

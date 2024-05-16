@@ -25,4 +25,8 @@ export class FieldService {
                 "ground": field.ground
             })
     }
+
+    deleteField(id: number): Observable<any> {
+        return this.http.delete<any>(`http://localhost:8080/field/${id}`);
+    }
 }
