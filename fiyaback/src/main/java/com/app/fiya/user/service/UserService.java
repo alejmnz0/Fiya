@@ -1,14 +1,19 @@
 package com.app.fiya.user.service;
 
+import com.app.fiya.MyPage;
+import com.app.fiya.exception.NotFoundException;
 import com.app.fiya.field.model.Field;
 import com.app.fiya.field.repository.FieldRepository;
 import com.app.fiya.user.dto.UserEdit;
+import com.app.fiya.user.dto.UserListResponse;
 import com.app.fiya.user.dto.UserRegister;
 import com.app.fiya.user.model.User;
 import com.app.fiya.user.model.UserRole;
 import com.app.fiya.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -87,5 +92,13 @@ public class UserService {
             return Optional.of(userRepository.save(newUser.get()));
         }
         return Optional.empty();
+    }
+
+    public MyPage<UserListResponse> getAll(Pageable pageable) {
+        Page<User> result = userRepository.findAll(pageable);
+        if (result.isEmpty())
+            throw new NotFoundException("User");
+        Page<UserListResponse> respuesta = result.map(UserListResponse::of);
+        return MyPage.of(respuesta);
     }
 }
