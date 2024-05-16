@@ -9,13 +9,15 @@ import { FieldListComponent } from './component/field-list/field-list.component'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './ui/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FieldComponent,
     FieldItemComponent,
-    FieldListComponent
+    FieldListComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
