@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Field, FieldListResponse } from "../models/field.interface";
 import { AddField } from "../models/add-field.interface";
+import { EditField } from "../models/edit-field.interface";
 
 @Injectable({
     providedIn: 'root',
@@ -28,5 +29,19 @@ export class FieldService {
 
     deleteField(id: number): Observable<any> {
         return this.http.delete<any>(`http://localhost:8080/field/${id}`);
+    }
+
+    editField(id: number, field: EditField): Observable<EditField> {
+        return this.http.put<EditField>(`http://localhost:8080/field/${id}/edit`,
+            {
+                "name": field.name,
+                "latitude": field.latitude,
+                "longitude": field.longitude,
+                "price": field.price,
+                "teamCapacity": field.teamCapacity,
+                "ground": field.ground,
+                "description": field.description
+            }
+        )
     }
 }

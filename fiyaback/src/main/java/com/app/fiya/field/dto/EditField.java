@@ -14,29 +14,23 @@ import org.hibernate.validator.constraints.Length;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class AddField {
+public class EditField {
 
-    @NotNull(message = "{AddField.name.nonempty}")
-    @NotEmpty(message = "{AddField.name.nonempty}")
     @Length(max = 50, message = "{AddField.name.length}")
     private String name;
 
-    @NotNull(message = "{AddField.latitude.nonempty}")
-    @NotEmpty(message = "{AddField.latitude.nonempty}")
     private String latitude;
 
-    @NotNull(message = "{AddField.longitude.nonempty}")
-    @NotEmpty(message = "{AddField.longitude.nonempty}")
     private String longitude;
 
-    @NotNull
     @Min(value = 0)
     private double price;
 
-    @NotNull
     @Min(value = 0)
     private int teamCapacity;
 
-    @NotNull
     private Ground ground;
+
+    @Length(max = 100, message = "{AddField.description.length}")
+    private String description;
 }

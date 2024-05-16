@@ -4,6 +4,7 @@ import com.app.fiya.MyPage;
 import com.app.fiya.date.model.Date;
 import com.app.fiya.exception.NotFoundException;
 import com.app.fiya.field.dto.AddField;
+import com.app.fiya.field.dto.EditField;
 import com.app.fiya.field.dto.FieldDetailResponse;
 import com.app.fiya.field.dto.FieldListResponse;
 import com.app.fiya.field.model.Field;
@@ -67,5 +68,29 @@ public class FieldService {
             fieldRepository.deleteById(id);
         else
             throw new NotFoundException("Field");
+    }
+
+    public Optional<Field> edit (Long id, EditField newField){
+        Optional<Field> acambiar = fieldRepository.findById(id);
+
+        if (acambiar.isPresent()){
+            if (newField.getName() != null)
+                acambiar.get().setName(newField.getName());
+            if (newField.getPrice() != 0)
+                acambiar.get().setPrice(newField.getPrice());
+            if (newField.getTeamCapacity() != 0)
+                acambiar.get().setTeamCapacity(newField.getTeamCapacity());
+            if (newField.getLatitude() != null)
+                acambiar.get().setLatitude(newField.getLatitude());
+            if (newField.getLongitude() != null)
+                acambiar.get().setLongitude(newField.getLongitude());
+            if (newField.getGround() != null)
+                acambiar.get().setGround(newField.getGround());
+            if (newField.getDescription() != null)
+                acambiar.get().setDescription(newField.getDescription());
+            return Optional.of(fieldRepository.save(acambiar.get()));
+        }
+
+        throw new NotFoundException("Profesor");
     }
 }

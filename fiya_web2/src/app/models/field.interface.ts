@@ -10,8 +10,8 @@ export interface FieldListResponse {
 export interface Field {
     id: number;
     name: string;
-    latitude: string;
-    longitude: string;
+    latitude: number;
+    longitude: number;
     description: string;
     price: number;
     teamCapacity: number;

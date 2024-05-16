@@ -2,6 +2,7 @@ package com.app.fiya.field.controller;
 
 import com.app.fiya.MyPage;
 import com.app.fiya.field.dto.AddField;
+import com.app.fiya.field.dto.EditField;
 import com.app.fiya.field.dto.FieldDetailResponse;
 import com.app.fiya.field.dto.FieldListResponse;
 import com.app.fiya.field.model.Field;
@@ -38,9 +39,12 @@ public class FieldController {
                             examples = {@ExampleObject(
                                     value = """
                                                 {
-                                                    "name": "Campo Los corrales",
-                                                    "latitude": "37.419068"
-                                                    "longitude": "-5.969218"
+                                                    "name": "Campo nuevo",
+                                                    "latitude": "37.419068",
+                                                    "longitude": "-5.969218",
+                                                    "price": 12.0,
+                                                    "teamCapacity": 7,
+                                                    "ground": "CLAY"
                                                 }
                                             """
                             )}
@@ -177,6 +181,27 @@ public class FieldController {
     public ResponseEntity<?> deleteField(@PathVariable Long id){
         fieldService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Field edited successfully", content = {
+                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Field.class)), examples = {
+                            @ExampleObject(value = """
+                                    {
+                                        "name": "Campo nuevo",
+                                        "latitude": "37.419068",
+                                        "longitude": "-5.969218",
+                                        "price": 12.0,
+                                        "teamCapacity": 7,
+                                        "ground": "CLAY"
+                                    }
+                                    """) }) }),
+            @ApiResponse(responseCode = "400", description = "Invalid data", content = @Content),
+    })
+    @PutMapping("/{id}/edit")
+    public ResponseEntity<EditField> editField (@PathVariable Long id, @Valid @RequestBody EditField field){
+        fieldService.edit(id, field);
+        return ResponseEntity.status(HttpStatus.OK).body(field);
     }
 
 
