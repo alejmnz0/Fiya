@@ -10,6 +10,6 @@ export class FieldService {
     constructor(private http: HttpClient) { }
 
     getAllFields(page: number): Observable<FieldListResponse> {
-        return this.http.get<FieldListResponse>(`http://localhost:8080/field/?page` + page);
+        return this.http.get<FieldListResponse>(`http://localhost:8080/field/?page=` + page);
     }
 }

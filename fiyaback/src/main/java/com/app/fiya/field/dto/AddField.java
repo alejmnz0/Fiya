@@ -30,16 +30,13 @@ public class AddField {
     private String longitude;
 
     @NotNull
-    @NotEmpty
     @Min(value = 0)
     private double price;
 
     @NotNull
-    @NotEmpty
     @Min(value = 0)
     private int teamCapacity;
 
     @NotNull
-    @NotEmpty
     private Ground ground;
 }

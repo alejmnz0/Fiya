@@ -30,6 +30,9 @@ public class FieldService {
                 .latitude(data.getLatitude())
                 .longitude(data.getLongitude())
                 //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
+                .ground(data.getGround())
+                .price(data.getPrice())
+                .teamCapacity(data.getTeamCapacity())
                 .build()));
     }
 
