@@ -113,6 +113,30 @@ public class UserController {
     }
 
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "User created successfully", content = {
+                    @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = User.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                    "name": "Alejandro Jiménez Fernández",
+                                                    "dni": "25435123K"
+                                                }
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid data",
+                    content = @Content)
+    })
+    @JsonView(UserRegister.AddUserResponse.class)
+    @PostMapping("/add")
+    public ResponseEntity<UserRegister> addUser (@Valid @RequestBody UserRegister data) {
+        userService.saveUser(data);
+        return ResponseEntity.status(HttpStatus.CREATED).body(data);
+    }
+
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User obtained successfully", content = {
                     @Content(mediaType = "application/json",
                             array = @ArraySchema(schema = @Schema(implementation = User.class)),

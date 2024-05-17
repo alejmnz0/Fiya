@@ -10,6 +10,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './ui/login/login.component';
+import { UserComponent } from './ui/user/user.component';
+import { UserListComponent } from './component/user-list/user-list.component';
+import { UserItemComponent } from './component/user-item/user-item.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import { LoginComponent } from './ui/login/login.component';
     FieldComponent,
     FieldItemComponent,
     FieldListComponent,
-    LoginComponent
+    LoginComponent,
+    UserComponent,
+    UserListComponent,
+    UserItemComponent
   ],
   imports: [
     BrowserModule,
