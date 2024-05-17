@@ -1,0 +1,30 @@
+<nav id="sidebar" class="collapse d-lg-block sidebar">
+    <div class="position-sticky">
+        <div class="list-group list-group-flush mx-3 mt-4">
+            <a [routerLink]="['subjects/']"
+                class="d-flex align-items-center pb-5 mb-md-0 me-md-auto text-black text-decoration-none">
+                <img src="../../../assets/Media/Logo.png" alt="Logo de la aplicación" class="me-2" width="60"
+                    height="60">
+                <h3>Fiya</h3>
+            </a>
+            <a [routerLink]="['teachers/']" class="d-flex nav-link text-muted px-0 align-middle">
+                <i class="bi bi-person-fill"></i>
+                <h5 class="mt-1">users</h5>
+            </a>
+            <a [routerLink]="['teacher/${id}/students']" class="d-flex nav-link text-muted align-middle px-0">
+                <i class="bi bi-exclude"></i>
+                <h5 class="mt-1">Fields</h5>
+            </a>
+            <a [routerLink]="['subjects/']" class="d-flex nav-link text-muted px-0 align-middle">
+                <i class="bi bi-shield-fill"></i>
+                <h5 class="mt-1">Teams</h5>
+            </a>
+            <hr>
+            <a href="" (click)="logout()" class="d-flex nav-link text-danger px-0 align-middle">
+                <i class="bi bi-box-arrow-right"></i>
+                <h5 class="mt-1">Log Out</h5>
+            </a>
+            <hr class="text-white">
+        </div>
+    </div>
+</nav>
