@@ -2,6 +2,8 @@ import { Component, Input, TemplateRef } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../../models/user.interface';
+import { EditUser } from '../../models/edit-user.interface';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-user-item',
@@ -31,7 +33,6 @@ export class UserItemComponent {
     this.modalService.open(content);
     this.name = this.user.name;
     this.email = this.user.email;
-    this.dni = this.user.dni;
     this.birthdate = this.user.birthdate;
   }
 
@@ -41,44 +42,33 @@ export class UserItemComponent {
     });
   }
 
-  // edituser() {
-  //   let newuser: Edituser = new Edituser(this.nombre, this.latitud, this.longitud, this.price, this.teamCapacity, this.ground, this.description);
-  //   this.userService.edituser(this.user.id, newuser).subscribe({
-  //     next: data => {
-  //       this.modalService.dismissAll();
-  //       window.location.reload();
-  //     },
+  edituser() {
+    const formattedDate: string = format(this.birthdate, 'MM/dd/yyyy');
+    let newuser: EditUser = new EditUser(this.name, this.email, formattedDate);
+    this.userService.editUser(this.user.id, newuser).subscribe({
+      next: data => {
+        this.modalService.dismissAll();
+        window.location.reload();
+      },
 
-  //     error: errorG => {
-  //       if (errorG.status = 400) {
-  //         let errors = errorG.error.body.users_errors;
-  //         errors.forEach((erro: { user: any; message: any; }) => {
-  //           switch (erro.user) {
-  //             case "name":
-  //               this.nombreErr = erro.message;
-  //               break;
-  //             case "latitude":
-  //               this.latitudErr = erro.message;
-  //               break;
-  //             case "longitude":
-  //               this.longitudErr = erro.message;
-  //               break;
-  //             case "price":
-  //               this.priceErr = erro.message;
-  //               break;
-  //             case "teamCapacity":
-  //               this.teamCapacityErr = erro.message;
-  //               break;
-  //             case "ground":
-  //               this.groundErr = erro.message;
-  //               break;
-  //             case "description":
-  //               this.descriptionErr = erro.message;
-  //               break;
-  //           }
-  //         });
-  //       }
-  //     }
-  //   })
-  // }
+      error: errorG => {
+        if (errorG.status = 400) {
+          let errors = errorG.error.body.users_errors;
+          errors.forEach((erro: { user: any; message: any; }) => {
+            switch (erro.user) {
+              case "name":
+                this.name = erro.message;
+                break;
+              case "email":
+                this.emailErr = erro.message;
+                break;
+              case "birthdate":
+                this.birthdateErr = erro.message;
+                break;
+            }
+          });
+        }
+      }
+    })
+  }
 }

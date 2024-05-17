@@ -94,6 +94,21 @@ public class UserService {
         return Optional.empty();
     }
 
+    public Optional<User> editUserById (UserEdit data, UUID id) {
+
+        Optional<User> aCambiar = userRepository.findById(id);
+        if (aCambiar.isPresent()){
+            if (data.getName() != null)
+                aCambiar.get().setName(data.getName());
+            if (data.getEmail() != null)
+                aCambiar.get().setEmail(data.getEmail());
+            if (data.getBirthdate() != null)
+                aCambiar.get().setBirthdate(data.getBirthdate());
+            return Optional.of(userRepository.save(aCambiar.get()));
+        }
+        throw new NotFoundException("User");
+    }
+
     public MyPage<UserListResponse> getAll(Pageable pageable) {
         Page<User> result = userRepository.findAll(pageable);
         if (result.isEmpty())

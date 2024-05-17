@@ -23,11 +23,18 @@ import java.time.LocalDate;
 @SuperBuilder
 public class UserEdit {
 
+    @NotEmpty(message = "{UserRegister.email.nonempty}")
+    @NotNull(message = "{UserRegister.email.nonempty}")
+    @UniqueEmail
+    @Email(message = "{UserRegister.email.email}")
     private String email;
 
+    @NotEmpty(message = "{UserRegister.name.nonempty}")
+    @NotNull(message = "{UserRegister.name.nonempty}")
     private String name;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =  "M/d/yyyy")
+    @LocalDateNotNull
     private LocalDate birthdate;
 
     private boolean isOnTeam;

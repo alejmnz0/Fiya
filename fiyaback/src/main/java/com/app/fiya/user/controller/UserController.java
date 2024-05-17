@@ -246,6 +246,30 @@ public class UserController {
     }
 
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User edit successfully", content = {
+                    @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = User.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                        "name": "User",
+                                                        "email": "user@user.es",
+                                                        "birthdate": "2004-06-11"
+                                                }
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid data",
+                    content = @Content)
+    })
+    @PutMapping("/{id}/edit")
+    public ResponseEntity<?> editUserbyId (@Valid @RequestBody UserEdit data, @PathVariable UUID id) {
+        userService.editUserById(data, id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(data);
+    }
+
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "User deleted", content = @Content),
     })
     @DeleteMapping("/{id}")

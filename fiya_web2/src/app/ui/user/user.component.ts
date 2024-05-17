@@ -3,6 +3,7 @@ import { AddUser } from '../../models/add-user.interface';
 import { User } from '../../models/user.interface';
 import { UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-user',
@@ -55,7 +56,15 @@ export class UserComponent {
   }
 
   crearUser() {
-    let newUser: AddUser = new AddUser(this.name, this.dni, this.email, this.password, this.repeatPassword, this.birthdate);
+    const formattedDate: string = format(this.birthdate, 'MM/dd/yyyy');
+    this.nameErr = '';
+    this.emailErr = '';
+    this.dniErr = '';
+    this.passwordErr = '';
+    this.repeatPasswordErr = '';
+    this.birthdateErr = '';
+    this.rolErr = '';
+    let newUser: AddUser = new AddUser(this.name, this.dni, this.email, this.password, this.repeatPassword, formattedDate);
     this.userService.addUser(newUser).subscribe({
       next: resp => {
         window.location.href = "http://localhost:4200/user";
