@@ -35,11 +35,11 @@ export class UserItemComponent {
     this.birthdate = this.user.birthdate;
   }
 
-  // delete() {
-  //   this.userService.deleteuser(this.user.id).subscribe(ans => {
-  //     window.location.reload();
-  //   });
-  // }
+  delete() {
+    this.userService.deleteUser(this.user.id).subscribe(ans => {
+      window.location.reload();
+    });
+  }
 
   // edituser() {
   //   let newuser: Edituser = new Edituser(this.nombre, this.latitud, this.longitud, this.price, this.teamCapacity, this.ground, this.description);

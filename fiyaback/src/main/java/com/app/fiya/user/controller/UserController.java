@@ -26,6 +26,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -241,6 +243,15 @@ public class UserController {
     public ResponseEntity<?> editUser (@RequestBody UserEdit data, @AuthenticationPrincipal User user) {
         userService.editUser(data, user);
         return ResponseEntity.status(HttpStatus.CREATED).body(data);
-    }   
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "User deleted", content = @Content),
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable UUID id){
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

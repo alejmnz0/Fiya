@@ -11,12 +11,14 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.Set;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 public class UserListResponse {
+    private UUID id;
     private String dni;
     private String name;
     private String email;
@@ -26,6 +28,7 @@ public class UserListResponse {
 
     public static UserListResponse of (User data){
         return UserListResponse.builder()
+                .id(data.getId())
                 .dni(data.getDni())
                 .name(data.getName())
                 .email(data.getEmail())

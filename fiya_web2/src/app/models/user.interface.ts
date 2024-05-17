@@ -8,6 +8,7 @@ export interface UserListResponse {
 }
 
 export interface User {
+    id: string;
     dni: string;
     name: string;
     email: string;

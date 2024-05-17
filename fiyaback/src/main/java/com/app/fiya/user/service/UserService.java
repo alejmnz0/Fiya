@@ -101,4 +101,13 @@ public class UserService {
         Page<UserListResponse> respuesta = result.map(UserListResponse::of);
         return MyPage.of(respuesta);
     }
+
+    public void delete (UUID id){
+        Optional<User> aborrar = userRepository.findById(id);
+
+        if (aborrar.isPresent())
+            userRepository.deleteById(id);
+        else
+            throw new NotFoundException("User");
+    }
 }

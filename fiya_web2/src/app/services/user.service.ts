@@ -27,4 +27,8 @@ export class UserService {
       }
     )
   }
+
+  deleteUser(id: string): Observable<any> {
+    return this.http.delete<any>(`http://localhost:8080/user/${id}`);
+  }
 }
