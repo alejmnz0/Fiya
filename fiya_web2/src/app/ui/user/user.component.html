@@ -43,7 +43,7 @@
             <div class="mb-3">
                 <label for="name">Name</label>
                 <div class="form-group">
-                    <input id="name" name="name" type="text" class="form-control" placeholder="Fotball field"
+                    <input id="name" name="name" type="text" class="form-control" placeholder="User name"
                         [(ngModel)]="name" required />
                     <div id="nameErr" class="text-danger mx-3">{{ nameErr }}</div>
                 </div>
@@ -76,14 +76,14 @@
                 <label for="repeatPassword">Repeat Password</label>
                 <div class="form-group">
                     <input id="repeatPassword" name="repeatPassword" type="text" class="form-control"
-                        placeholder="Team capacity" [(ngModel)]="repeatPassword" required />
+                        placeholder="Repeat password" [(ngModel)]="repeatPassword" required />
                     <div id="repeatPasswordErr" class="text-danger mx-3">{{ repeatPasswordErr }}</div>
                 </div>
             </div>
             <div class="mb-3">
                 <label for="birthdate">Birthdate</label>
                 <div class="form-group">
-                    <input id="birthdate" name="birthdate" type="text" class="form-control" placeholder="Team capacity"
+                    <input id="birthdate" name="birthdate" type="text" class="form-control" placeholder="Birthdate"
                         [(ngModel)]="birthdate" required />
                     <div id="birthdateErr" class="text-danger mx-3">{{ birthdateErr }}</div>
                 </div>

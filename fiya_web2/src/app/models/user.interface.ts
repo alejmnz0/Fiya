@@ -11,5 +11,6 @@ export interface User {
     dni: string;
     name: string;
     email: string;
+    image: string;
     birthdate: Date;
 }
