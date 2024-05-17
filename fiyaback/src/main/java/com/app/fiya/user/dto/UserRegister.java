@@ -25,7 +25,7 @@ import java.time.LocalDate;
 public class UserRegister {
 
     @NotNull(message = "{UserRegister.dni.nonempty}")
-    @JsonView({UserResponse.class})
+    @JsonView({UserResponse.class, AddUserResponse.class})
     @NotEmpty(message = "{UserRegister.dni.nonempty}")
     @UniqueDni
     private String dni;
@@ -37,7 +37,7 @@ public class UserRegister {
     private String email;
 
     @NotEmpty(message = "{UserRegister.name.nonempty}")
-    @JsonView({UserResponse.class})
+    @JsonView({UserResponse.class, AddUserResponse.class})
     @NotNull(message = "{UserRegister.name.nonempty}")
     private String name;
 
@@ -70,5 +70,6 @@ public class UserRegister {
     }
 
     public static class UserResponse {}
+    public static class AddUserResponse {}
 
 }

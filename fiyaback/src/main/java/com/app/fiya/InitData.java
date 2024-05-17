@@ -37,9 +37,20 @@ public class InitData {
                 .favourites(fav)
                 .birthdate(LocalDate.of(2004, 6, 11))
                 .password(passwordEncoder.encode("123456789"))
+                .role(UserRole.ADMIN)
+                .build();
+        User user2 = User.builder()
+                .name("user")
+                .dni("87654321A")
+                .image("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")
+                .email("user@gmail.com")
+                .favourites(fav)
+                .birthdate(LocalDate.of(2001, 5, 10))
+                .password(passwordEncoder.encode("123456789"))
                 .role(UserRole.USER)
                 .build();
         userRepository.save(user);
+        userRepository.save(user2);
 
 
         fieldRepository.save(Field.builder()

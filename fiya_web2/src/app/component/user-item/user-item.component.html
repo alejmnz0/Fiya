@@ -1,0 +1,78 @@
+<div class="row mb-2">
+    <div class="card col-11">
+        <a href="" class="btn">
+            <div class="card-body row align-items-center">
+                <div class="col-2">
+                    <img [src]="user.image" alt="profile image" width="110" class="rounded-circle">
+                </div>
+                <div class="col-10 text-start">
+                    <h2 class="card-title">{{user.name}}</h2>
+                    <div class="d-flex align-items-center">
+                        <p class="card-text"><i class="bi bi-envelope-fill"></i> {{user.email}}</p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <p class="card-text"><i class="bi bi-person-vcard-fill"></i> {{user.dni}}</p>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <p class="card-text"><i class="bi bi-cake2-fill"></i> {{user.birthdate}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-1">
+        <button type="button" class="btn btn-warning w-100 mt-4 d-flex align-items-center justify-content-center"
+            (click)="open(content)">
+            <div class="d-flex align-items-center">
+                <span><i class="bi bi-pencil-square"></i> Edit </span>
+            </div>
+        </button>
+        <button type="button" class="btn btn-danger mt-4 d-flex align-items-center" (click)="delete()">
+            <div class="d-flex align-items-center"><i class="bi bi-trash3-fill"></i>
+                <span>Delete</span>
+            </div>
+        </button>
+    </div>
+
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Edit user</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="mb-3">
+                <label for="name">Name</label>
+                <div class="form-group">
+                    <input id="name" name="name" type="text" class="form-control" placeholder="Fotball user"
+                        [(ngModel)]="name" required />
+                    <div id="nameErr" class="text-danger mx-3">{{ nameErr }}</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <div class="form-group">
+                    <input id="email" name="email" type="text" class="form-control" placeholder="emaile"
+                        [(ngModel)]="email" required />
+                    <div id="emailErr" class="text-danger mx-3">{{ emailErr }}</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="birthdate">Birthdate</label>
+                <div class="form-group">
+                    <input id="birthdate" name="birthdate" type="date" class="form-control" placeholder="birthdate"
+                        [(ngModel)]="birthdate" required />
+                    <div id="birthdateErr" class="text-danger mx-3">{{ birthdateErr }}</div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="edituser()">
+            Save
+        </button>
+    </div>
+</ng-template>

@@ -1,0 +1,96 @@
+<div class="container">
+    <div class="mt-4">
+        <div class="row">
+            <div class="col-2">
+                <h1><strong>Fields</strong></h1>
+            </div>
+            <div class="col-8 d-flex mt-2">
+                <div class="form-outline" data-mdb-input-init>
+                    <input type="search" id="form1" class="form-control" size="1000" placeholder="Search"
+                        aria-label="Search" />
+                </div>
+            </div>
+            <div class="col-1 offset-1 d-flex align-items-center boton-anadir" (click)="open(content)">
+                <button type="button" class="btn btn-primary">
+                    <div class="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-circle me-2" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                        </svg>
+                        <span>New</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+        <hr style="margin-top: 0" />
+    </div>
+    <div>
+        <app-field-list [fieldList]="fieldList"></app-field-list>
+    </div>
+    <div class="pagination justify-content-center">
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add field</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="mb-3">
+                <label for="nombre">Name</label>
+                <div class="form-group">
+                    <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Fotball field"
+                        [(ngModel)]="nombre" required />
+                    <div id="nombreErr" class="text-danger mx-3">{{ nombreErr }}</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="latitud">Latitude</label>
+                <div class="form-group">
+                    <input id="latitud" name="latitud" type="number" class="form-control" placeholder="Latitude"
+                        [(ngModel)]="latitud" required />
+                    <div id="latitudErr" class="text-danger mx-3">{{ latitudErr }}</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="longitud">Longitude</label>
+                <div class="form-group">
+                    <input id="longitud" name="longitud" type="number" class="form-control" placeholder="Longitude"
+                        [(ngModel)]="longitud" required />
+                    <div id="longitudErr" class="text-danger mx-3">{{ longitudErr }}</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="price">Price</label>
+                <div class="form-group">
+                    <input id="price" name="price" type="number" class="form-control" placeholder="Price"
+                        [(ngModel)]="price" required />
+                    <div id="priceErr" class="text-danger mx-3">{{ priceErr }}</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="teamCapacity">Team capacity</label>
+                <div class="form-group">
+                    <input id="teamCapacity" name="teamCapacity" type="number" class="form-control"
+                        placeholder="Team capacity" [(ngModel)]="teamCapacity" required />
+                    <div id="teamCapacityErr" class="text-danger mx-3">{{ teamCapacityErr }}</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="selectGround">Ground type</label>
+                <select class="form-select" name="ground" [(ngModel)]="ground" required id="selectGround">
+                    <option *ngFor="let item of groundList" [value]="item">{{item}}</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="crearField()">
+            Save
+        </button>
+    </div>
+</ng-template>

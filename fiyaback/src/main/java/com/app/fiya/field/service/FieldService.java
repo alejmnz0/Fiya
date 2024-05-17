@@ -4,6 +4,7 @@ import com.app.fiya.MyPage;
 import com.app.fiya.date.model.Date;
 import com.app.fiya.exception.NotFoundException;
 import com.app.fiya.field.dto.AddField;
+import com.app.fiya.field.dto.EditField;
 import com.app.fiya.field.dto.FieldDetailResponse;
 import com.app.fiya.field.dto.FieldListResponse;
 import com.app.fiya.field.model.Field;
@@ -30,6 +31,9 @@ public class FieldService {
                 .latitude(data.getLatitude())
                 .longitude(data.getLongitude())
                 //.dates(Set.of(Date.builder().isFree(true).date(LocalDateTime.of(2024, 3, 5, 12, 0)).captain(User.builder().name("Andres").dni("12345678Z").email("andresito@gmail.com").build()).build()))
+                .ground(data.getGround())
+                .price(data.getPrice())
+                .teamCapacity(data.getTeamCapacity())
                 .build()));
     }
 
@@ -55,5 +59,38 @@ public class FieldService {
             throw new NotFoundException("Field");
 
         return FieldDetailResponse.of(data.get());
+    }
+
+    public void delete (Long id){
+        Optional<Field> aborrar = fieldRepository.findById(id);
+
+        if (aborrar.isPresent())
+            fieldRepository.deleteById(id);
+        else
+            throw new NotFoundException("Field");
+    }
+
+    public Optional<Field> edit (Long id, EditField newField){
+        Optional<Field> acambiar = fieldRepository.findById(id);
+
+        if (acambiar.isPresent()){
+            if (newField.getName() != null)
+                acambiar.get().setName(newField.getName());
+            if (newField.getPrice() != 0)
+                acambiar.get().setPrice(newField.getPrice());
+            if (newField.getTeamCapacity() != 0)
+                acambiar.get().setTeamCapacity(newField.getTeamCapacity());
+            if (newField.getLatitude() != null)
+                acambiar.get().setLatitude(newField.getLatitude());
+            if (newField.getLongitude() != null)
+                acambiar.get().setLongitude(newField.getLongitude());
+            if (newField.getGround() != null)
+                acambiar.get().setGround(newField.getGround());
+            if (newField.getDescription() != null)
+                acambiar.get().setDescription(newField.getDescription());
+            return Optional.of(fieldRepository.save(acambiar.get()));
+        }
+
+        throw new NotFoundException("Profesor");
     }
 }

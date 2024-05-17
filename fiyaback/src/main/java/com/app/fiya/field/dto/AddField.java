@@ -18,7 +18,7 @@ public class AddField {
 
     @NotNull(message = "{AddField.name.nonempty}")
     @NotEmpty(message = "{AddField.name.nonempty}")
-    @Length(max = 20, message = "{AddField.name.length}")
+    @Length(max = 50, message = "{AddField.name.length}")
     private String name;
 
     @NotNull(message = "{AddField.latitude.nonempty}")
@@ -30,16 +30,13 @@ public class AddField {
     private String longitude;
 
     @NotNull
-    @NotEmpty
     @Min(value = 0)
     private double price;
 
     @NotNull
-    @NotEmpty
     @Min(value = 0)
     private int teamCapacity;
 
     @NotNull
-    @NotEmpty
     private Ground ground;
 }
