@@ -5,6 +5,8 @@ import com.app.fiya.field.model.Field;
 import com.app.fiya.field.model.Ground;
 import com.app.fiya.field.repository.FieldRepository;
 import com.app.fiya.rent.model.Rent;
+import com.app.fiya.team.model.Team;
+import com.app.fiya.team.repository.TeamRepository;
 import com.app.fiya.user.model.User;
 import com.app.fiya.user.model.UserRole;
 import com.app.fiya.user.repository.UserRepository;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -23,6 +26,7 @@ import java.util.Set;
 public class InitData {
     private final UserRepository userRepository;
     private final FieldRepository fieldRepository;
+    private final TeamRepository teamRepository;
     private final PasswordEncoder passwordEncoder;
     Set<Field> fav = new HashSet<>();
 
@@ -52,6 +56,14 @@ public class InitData {
         userRepository.save(user);
         userRepository.save(user2);
 
+        Team team = Team.builder()
+                        .name("Rebaño")
+                        .urlImage("asdasdasdas")
+                        .primaryColor(Color.BLACK)
+                        .secundaryColor(Color.RED)
+                        .build();
+
+        teamRepository.save(team);
 
         fieldRepository.save(Field.builder()
                 .name("Los corrales futbol")

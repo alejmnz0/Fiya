@@ -1,9 +1,12 @@
 package com.app.fiya.team.controller;
 
+import com.app.fiya.MyPage;
 import com.app.fiya.team.dto.AddTeam;
+import com.app.fiya.team.dto.TeamListResponse;
 import com.app.fiya.team.dto.TeamResponse;
 import com.app.fiya.team.model.Team;
 import com.app.fiya.team.service.TeamService;
+import com.app.fiya.user.dto.UserListResponse;
 import com.app.fiya.user.dto.UserLogin;
 import com.app.fiya.user.dto.UserRegister;
 import com.app.fiya.user.model.User;
@@ -16,14 +19,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -53,5 +55,45 @@ public class TeamController {
     public ResponseEntity<AddTeam> teamRegister (@Valid @RequestBody AddTeam data, @AuthenticationPrincipal User user) {
         teamService.saveTeam(data, user);
         return ResponseEntity.status(HttpStatus.CREATED).body(data);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Team obtained successfully", content = {
+                    @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = User.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                    "content": [
+                                                        {
+                                                            "name": "John Doe",
+                                                            "email": "johndoe@gmail.com",
+                                                            "image": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                                                            "birthdate": "2004-06-11"
+                                                        },
+                                                        {
+                                                            "dni": "87654321A",
+                                                            "name": "user",
+                                                            "email": "user@gmail.com",
+                                                            "image": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+                                                            "birthdate": "2001-05-10"
+                                                        }
+                                                    ],
+                                                    "size": 20,
+                                                    "elements": 2,
+                                                    "page": 0,
+                                                    "firs": true,
+                                                    "last": true
+                                                }
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "Team not found",
+                    content = @Content)
+    })
+    @GetMapping("/")
+    public MyPage<TeamListResponse> getAll (@PageableDefault(page = 0, size = 20) Pageable pageable){
+        return teamService.getAll(pageable);
     }
 }

@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.awt.*;
 import java.util.Set;
 
 @Entity
@@ -25,6 +26,10 @@ public class Team {
     private Long id;
 
     private String name;
+
+    private Color primaryColor;
+
+    private Color secundaryColor;
 
     private String urlImage;
 

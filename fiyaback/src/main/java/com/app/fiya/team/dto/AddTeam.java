@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.Length;
 
+import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,4 +29,10 @@ public class AddTeam {
     @NotNull(message = "{AddTeam.url.nonempty}")
     @NotEmpty(message = "{AddTeam.url.nonempty}")
     private String urlImage;
+
+    @NotNull(message = "{AddTeam.color.nonempty}")
+    @NotEmpty(message = "{AddTeam.color.nonempty}")
+    private Color primaryColor;
+
+    private Color secundaryColor;
 }

@@ -14,6 +14,8 @@ import { UserComponent } from './ui/user/user.component';
 import { UserListComponent } from './component/user-list/user-list.component';
 import { UserItemComponent } from './component/user-item/user-item.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { TeamComponent } from './ui/team/team.component';
 
 @NgModule({
   declarations: [
@@ -25,12 +27,14 @@ import { NavbarComponent } from './component/navbar/navbar.component';
     UserComponent,
     UserListComponent,
     UserItemComponent,
-    NavbarComponent
+    NavbarComponent,
+    TeamComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
+    ColorPickerModule,
     FormsModule,
     HttpClientModule
   ],
