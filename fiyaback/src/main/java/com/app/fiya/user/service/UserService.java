@@ -18,10 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -52,6 +49,12 @@ public class UserService {
 
     public boolean existEmail(String email ) {
         return userRepository.getAllemail().stream().toList().contains(email);
+    }
+
+    public boolean exeptionExistEmail(String actualEmail, String newEmail ) {
+        List<String> listaEmail = userRepository.getAllemail();
+        listaEmail.remove(actualEmail);
+        return listaEmail.contains(newEmail);
     }
 
 

@@ -38,6 +38,7 @@ export class UserService {
       {
         "name": user.name,
         "email": user.email,
+        "actualEmail": user.actualEmail,
         "birthdate": user.birthdate,
       }
     )

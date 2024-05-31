@@ -239,6 +239,7 @@ public class UserController {
                     description = "Invalid data",
                     content = @Content)
     })
+    @JsonView(UserEdit.EditUserResponse.class)
     @PostMapping("/edit")
     public ResponseEntity<?> editUser (@RequestBody UserEdit data, @AuthenticationPrincipal User user) {
         userService.editUser(data, user);
@@ -263,6 +264,7 @@ public class UserController {
                     description = "Invalid data",
                     content = @Content)
     })
+    @JsonView(UserEdit.EditUserResponse.class)
     @PutMapping("/{id}/edit")
     public ResponseEntity<?> editUserbyId (@Valid @RequestBody UserEdit data, @PathVariable UUID id) {
         userService.editUserById(data, id);
