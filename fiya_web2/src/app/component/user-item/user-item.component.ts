@@ -13,6 +13,7 @@ import { format } from 'date-fns';
 export class UserItemComponent {
   name: string = '';
   email: string = '';
+  actualEmail: string = '';
   dni: string = '';
   birthdate!: Date;
   nameErr: string = '';
@@ -33,6 +34,7 @@ export class UserItemComponent {
     this.modalService.open(content);
     this.name = this.user.name;
     this.email = this.user.email;
+    this.actualEmail = this.user.email;
     this.birthdate = this.user.birthdate;
   }
 
@@ -44,26 +46,28 @@ export class UserItemComponent {
 
   edituser() {
     const formattedDate: string = format(this.birthdate, 'MM/dd/yyyy');
-    let newuser: EditUser = new EditUser(this.name, this.email, formattedDate);
+    let newuser: EditUser = new EditUser(this.name, this.email, formattedDate, this.actualEmail);
     this.userService.editUser(this.user.id, newuser).subscribe({
       next: data => {
         this.modalService.dismissAll();
         window.location.reload();
       },
-
       error: errorG => {
         if (errorG.status = 400) {
-          let errors = errorG.error.body.users_errors;
-          errors.forEach((erro: { user: any; message: any; }) => {
-            switch (erro.user) {
+          let errors = errorG.error.body.fields_errors;
+          errors.forEach((erro: { field: any; message: any; }) => {
+            switch (erro.field) {
               case "name":
-                this.name = erro.message;
+                this.nameErr = erro.message;
                 break;
               case "email":
                 this.emailErr = erro.message;
                 break;
               case "birthdate":
                 this.birthdateErr = erro.message;
+                break;
+              default:
+                this.emailErr = erro.message
                 break;
             }
           });

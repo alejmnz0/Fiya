@@ -67,7 +67,7 @@ export class UserComponent {
     let newUser: AddUser = new AddUser(this.name, this.dni, this.email, this.password, this.repeatPassword, formattedDate);
     this.userService.addUser(newUser).subscribe({
       next: resp => {
-        window.location.href = "http://localhost:4200/user";
+        window.location.reload();
       }, error: errorG => {
         if (errorG.status = 400) {
           let errors = errorG.error.body.fields_errors;

@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface FieldsValueMatch {
 
-    String message() default "field values do not match";
+    String message() default "Field values do not match";
 
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};

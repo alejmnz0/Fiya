@@ -50,7 +50,7 @@ public class TeamController {
                     content = @Content)
     })
     @PostMapping("/register")
-    public ResponseEntity<AddTeam> userRegister (@Valid @RequestBody AddTeam data, @AuthenticationPrincipal User user) {
+    public ResponseEntity<AddTeam> teamRegister (@Valid @RequestBody AddTeam data, @AuthenticationPrincipal User user) {
         teamService.saveTeam(data, user);
         return ResponseEntity.status(HttpStatus.CREATED).body(data);
     }
