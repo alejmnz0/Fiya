@@ -4,6 +4,7 @@ import com.app.fiya.MyPage;
 import com.app.fiya.field.dto.FieldFavResponse;
 import com.app.fiya.field.dto.FieldListResponse;
 import com.app.fiya.user.model.User;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +19,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @SuperBuilder
 public class UserResponse {
-
     protected String id;
+
     protected String image;
+
     protected String email;
+
     protected String name;
+
     protected LocalDate birthdate;
     protected Set<FieldFavResponse> favourites;
     protected boolean isOnTeam;

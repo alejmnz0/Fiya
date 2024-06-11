@@ -56,11 +56,13 @@ public class InitData {
         userRepository.save(user);
         userRepository.save(user2);
 
+        Set<User> players = new HashSet<>();
         Team team = Team.builder()
                         .name("Rebaño")
-                        .urlImage("asdasdasdas")
+                        .urlImage("https://static.vocento.com/sportsdata/latest/assets/equipos/icono-escudo-dummy.png")
                         .primaryColor(Color.BLACK)
                         .secundaryColor(Color.RED)
+                        .players(players)
                         .build();
 
         teamRepository.save(team);

@@ -14,4 +14,10 @@ export interface User {
     email: string;
     image: string;
     birthdate: Date;
+    team: TeamResponse;
+}
+
+export interface TeamResponse {
+    name: string;
+    urlImage: string;
 }

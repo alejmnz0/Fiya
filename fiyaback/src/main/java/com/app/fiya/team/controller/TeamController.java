@@ -1,6 +1,7 @@
 package com.app.fiya.team.controller;
 
 import com.app.fiya.MyPage;
+import com.app.fiya.team.dto.AddPlayer;
 import com.app.fiya.team.dto.AddTeam;
 import com.app.fiya.team.dto.TeamListResponse;
 import com.app.fiya.team.dto.TeamResponse;
@@ -9,6 +10,7 @@ import com.app.fiya.team.service.TeamService;
 import com.app.fiya.user.dto.UserListResponse;
 import com.app.fiya.user.dto.UserLogin;
 import com.app.fiya.user.dto.UserRegister;
+import com.app.fiya.user.dto.UserResponse;
 import com.app.fiya.user.model.User;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -60,31 +62,24 @@ public class TeamController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Team obtained successfully", content = {
                     @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = User.class)),
+                            array = @ArraySchema(schema = @Schema(implementation = Team.class)),
                             examples = {@ExampleObject(
                                     value = """
                                                 {
-                                                    "content": [
-                                                        {
-                                                            "name": "John Doe",
-                                                            "email": "johndoe@gmail.com",
-                                                            "image": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-                                                            "birthdate": "2004-06-11"
-                                                        },
-                                                        {
-                                                            "dni": "87654321A",
-                                                            "name": "user",
-                                                            "email": "user@gmail.com",
-                                                            "image": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-                                                            "birthdate": "2001-05-10"
-                                                        }
-                                                    ],
-                                                    "size": 20,
-                                                    "elements": 2,
-                                                    "page": 0,
-                                                    "firs": true,
-                                                    "last": true
-                                                }
+                                                     "content": [
+                                                         {
+                                                             "id": 1,
+                                                             "name": "Rebaño",
+                                                             "primaryColor": -16777216,
+                                                             "secondaryColor": -65536
+                                                         }
+                                                     ],
+                                                     "size": 20,
+                                                     "elements": 1,
+                                                     "page": 0,
+                                                     "firs": true,
+                                                     "last": true
+                                                 }
                                             """
                             )}
                     )}),
@@ -95,5 +90,35 @@ public class TeamController {
     @GetMapping("/")
     public MyPage<TeamListResponse> getAll (@PageableDefault(page = 0, size = 20) Pageable pageable){
         return teamService.getAll(pageable);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "User created successfully", content = {
+                    @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = User.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                    "name": "Alejandro Jiménez Fernández",
+                                                    "dni": "25435123K"
+                                                }
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid data",
+                    content = @Content)
+    })
+    @JsonView(UserRegister.AddUserResponse.class)
+    @PostMapping("/add")
+    public ResponseEntity<AddTeam> addTeam (@Valid @RequestBody AddTeam data) {
+        teamService.addTeam(data);
+        return ResponseEntity.status(HttpStatus.CREATED).body(data);
+    }
+
+    @PostMapping("/add-player")
+    public ResponseEntity<?> addPlayer (@RequestBody AddPlayer data){
+        teamService.addPlayer(data);
+        return ResponseEntity.status(HttpStatus.OK).body(data);
     }
 }

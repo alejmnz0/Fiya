@@ -3,6 +3,8 @@ package com.app.fiya.user.dto;
 import com.app.fiya.date.model.Date;
 import com.app.fiya.field.model.Field;
 import com.app.fiya.field.model.Ground;
+import com.app.fiya.team.dto.TeamListResponse;
+import com.app.fiya.team.dto.TeamResponse;
 import com.app.fiya.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,6 +26,7 @@ public class UserListResponse {
     private String email;
     private String image;
     private LocalDate birthdate;
+    private TeamResponse team;
     //private Set<Date> dates;
 
     public static UserListResponse of (User data){
@@ -34,6 +37,7 @@ public class UserListResponse {
                 .email(data.getEmail())
                 .image(data.getImage())
                 .birthdate(data.getBirthdate())
+                .team(data.getTeam() != null ? TeamResponse.of(data.getTeam()) : null)
                 .build();
     }
 }

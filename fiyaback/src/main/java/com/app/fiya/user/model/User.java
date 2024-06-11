@@ -1,6 +1,7 @@
 package com.app.fiya.user.model;
 
 import com.app.fiya.field.model.Field;
+import com.app.fiya.team.model.Team;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -63,7 +64,10 @@ public class User implements UserDetails {
     private boolean isOnTeam = false;
 
     private UserRole role = UserRole.USER;
-    //private Team team;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

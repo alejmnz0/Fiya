@@ -1,0 +1,100 @@
+<div class="container">
+    <div class="mt-4">
+        <div class="row">
+            <div class="col-2">
+                <h1><strong>{{name}}</strong></h1>
+            </div>
+            <div class="col-8 d-flex mt-2">
+            </div>
+            <div class="col-1 offset-1 d-flex align-items-center boton-anadir" (click)="open(content)">
+                <button type="button" class="btn btn-primary">
+                    <div class="d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-plus-circle me-2" viewBox="0 0 16 16">
+                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                            <path
+                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                        </svg>
+                        <span>New</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+        <hr style="margin-top: 0" />
+    </div>
+    <div>
+        <app-user-list [userList]="userList"></app-user-list>
+    </div>
+    <div class="pagination justify-content-center">
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add user</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="mb-3">
+                <label for="name">Name</label>
+                <div class="form-group">
+                    <input id="name" name="name" type="text" class="form-control" placeholder="User name"
+                        [(ngModel)]="name" required />
+                    <div id="nameErr" class="text-danger mx-3">{{ nameErr }}</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <div class="form-group">
+                    <input id="email" name="email" type="text" class="form-control" placeholder="email"
+                        [(ngModel)]="email" required />
+                    <div id="emailErr" class="text-danger mx-3">{{ emailErr }}</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="dni">Dni</label>
+                <div class="form-group">
+                    <input id="dni" name="dni" type="text" class="form-control" placeholder="dni" [(ngModel)]="dni"
+                        required />
+                    <div id="dniErr" class="text-danger mx-3">{{ dniErr }}</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="password">Password</label>
+                <div class="form-group">
+                    <input id="password" name="password" type="text" class="form-control" placeholder="password"
+                        [(ngModel)]="password" required />
+                    <div id="passwordErr" class="text-danger mx-3">{{ passwordErr }}</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="repeatPassword">Repeat Password</label>
+                <div class="form-group">
+                    <input id="repeatPassword" name="repeatPassword" type="text" class="form-control"
+                        placeholder="Repeat password" [(ngModel)]="repeatPassword" required />
+                    <div id="repeatPasswordErr" class="text-danger mx-3">{{ repeatPasswordErr }}</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="birthdate">Birthdate</label>
+                <div class="form-group">
+                    <input id="birthdate" name="birthdate" type="date" class="form-control" placeholder="Birthdate"
+                        [(ngModel)]="birthdate" required />
+                    <div id="birthdateErr" class="text-danger mx-3">{{ birthdateErr }}</div>
+                </div>
+            </div>
+            <!-- <div class="mb-3">
+                <label for="rol">Rol</label>
+                <select class="form-select" name="rol" [(ngModel)]="rol" required id="rol">
+                    <option *ngFor="let item of roles" [value]="item">{{item}}</option>
+                </select>
+            </div> -->
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="crearUser()">
+            Save
+        </button>
+    </div>
+</ng-template>

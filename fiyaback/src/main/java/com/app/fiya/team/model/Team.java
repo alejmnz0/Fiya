@@ -37,7 +37,6 @@ public class Team {
     @JoinColumn(name = "captain_id")
     private User captain;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "team_id")
+    @OneToMany(mappedBy = "team" ,cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<User> players;
 }

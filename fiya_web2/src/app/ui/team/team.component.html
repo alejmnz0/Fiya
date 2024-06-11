@@ -27,7 +27,7 @@
         <hr style="margin-top: 0" />
     </div>
     <div>
-        <app-field-list [fieldList]="fieldList"></app-field-list>
+        <app-team-list [teamList]="teamList"></app-team-list>
     </div>
     <div class="pagination justify-content-center">
     </div>
@@ -35,7 +35,7 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Add field</h4>
+        <h4 class="modal-title" id="modal-basic-title">Add team</h4>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
@@ -43,53 +43,39 @@
             <div class="mb-3">
                 <label for="nombre">Name</label>
                 <div class="form-group">
-                    <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Fotball field"
+                    <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Team name"
                         [(ngModel)]="nombre" required />
                     <div id="nombreErr" class="text-danger mx-3">{{ nombreErr }}</div>
                 </div>
             </div>
             <div class="mb-3">
-                <label for="latitud">Latitude</label>
+                <label for="logo">Image logo</label>
                 <div class="form-group">
-                    <input id="latitud" name="latitud" type="number" class="form-control" placeholder="Latitude"
-                        [(ngModel)]="latitud" required />
-                    <div id="latitudErr" class="text-danger mx-3">{{ latitudErr }}</div>
+                    <input id="logo" name="logo" type="text" class="form-control" placeholder="Logo URL"
+                        [(ngModel)]="logo" required />
+                    <div id="logoErr" class="text-danger mx-3">{{ logoErr }}</div>
                 </div>
             </div>
             <div class="mb-3">
-                <label for="longitud">Longitude</label>
+                <label for="primaryColor">Primary color</label>
                 <div class="form-group">
-                    <input id="longitud" name="longitud" type="number" class="form-control" placeholder="Longitude"
-                        [(ngModel)]="longitud" required />
-                    <div id="longitudErr" class="text-danger mx-3">{{ longitudErr }}</div>
+                    <input id="primaryColor" name="primaryColor" type="color" class="form-control"
+                        placeholder="primaryColor" [(ngModel)]="primaryColor" required />
+                    <div id="primaryColorErr" class="text-danger mx-3">{{ primaryColorErr }}</div>
                 </div>
             </div>
             <div class="mb-3">
-                <label for="price">Price</label>
+                <label for="secondaryColor">Secondary color</label>
                 <div class="form-group">
-                    <input id="price" name="price" type="number" class="form-control" placeholder="Price"
-                        [(ngModel)]="price" required />
-                    <div id="priceErr" class="text-danger mx-3">{{ priceErr }}</div>
+                    <input id="secondaryColor" name="secondaryColor" type="color" class="form-control"
+                        placeholder="secondaryColor" [(ngModel)]="secondaryColor" required />
+                    <div id="secondaryColorErr" class="text-danger mx-3">{{ secondaryColorErr }}</div>
                 </div>
-            </div>
-            <div class="mb-3">
-                <label for="teamCapacity">Team capacity</label>
-                <div class="form-group">
-                    <input id="teamCapacity" name="teamCapacity" type="number" class="form-control"
-                        placeholder="Team capacity" [(ngModel)]="teamCapacity" required />
-                    <div id="teamCapacityErr" class="text-danger mx-3">{{ teamCapacityErr }}</div>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="selectGround">Ground type</label>
-                <select class="form-select" name="ground" [(ngModel)]="ground" required id="selectGround">
-                    <option *ngFor="let item of groundList" [value]="item">{{item}}</option>
-                </select>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="crearField()">
+        <button type="button" class="btn btn-outline-dark" (click)="crearTeam()">
             Save
         </button>
     </div>
