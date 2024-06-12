@@ -31,7 +31,13 @@ public class ExeptionUniqueEmailValidator implements ConstraintValidator<Exeptio
                 .forBeanPropertyAccess(o)
                 .getPropertyValue(newEmailField);
 
-        return StringUtils.hasText(actualEmail) && actualEmail.contentEquals(newEmail);
+        if (StringUtils.hasText(newEmail) && !newEmail.equals(actualEmail)) {
+            // Check if the new email is already used by another user
+            return !userService.emailExists(newEmail);
+        }
+
+        // If the new email is the same as the actual email or actual email is blank, return true
+        return true;
     }
 
 }

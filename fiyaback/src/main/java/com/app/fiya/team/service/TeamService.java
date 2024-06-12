@@ -4,9 +4,11 @@ import com.app.fiya.MyPage;
 import com.app.fiya.exception.NotFoundException;
 import com.app.fiya.team.dto.AddPlayer;
 import com.app.fiya.team.dto.AddTeam;
+import com.app.fiya.team.dto.EditTeam;
 import com.app.fiya.team.dto.TeamListResponse;
 import com.app.fiya.team.model.Team;
 import com.app.fiya.team.repository.TeamRepository;
+import com.app.fiya.user.dto.UserEdit;
 import com.app.fiya.user.model.User;
 import com.app.fiya.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.awt.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -103,5 +107,50 @@ public class TeamService {
             userRepository.save(player);
             teamRepository.save(team);
         }
+    }
+
+    public void delete (Long id){
+        Optional<Team> aborrar = teamRepository.findById(id);
+
+        if (aborrar.isPresent()){
+            Team team = aborrar.get();
+            List<User> players = userRepository.findByTeam(team);
+            for (User user : players) {
+                user.setTeam(null);
+                userRepository.save(user);
+            }
+            teamRepository.deleteById(id);
+        }else
+            throw new NotFoundException("Team");
+    }
+
+    public Optional<Team> editTeamById (EditTeam data, Long id) {
+
+        String hex = data.getPrimaryColor();
+        String hex2 = data.getSecondaryColor();
+        if (hex.startsWith("#"))
+            hex = hex.substring(1);
+        if (hex2.startsWith("#"))
+            hex2 = hex2.substring(1);
+        int intValue = Integer.parseInt(hex, 16);
+        int intValue2 = Integer.parseInt(hex2, 16);
+
+        Optional<Team> aCambiar = teamRepository.findById(id);
+        if (aCambiar.isPresent()){
+            if (data.getName() != null)
+                aCambiar.get().setName(data.getName());
+            if (data.getUrlImage() != null)
+                aCambiar.get().setUrlImage(data.getUrlImage());
+            if (data.getPrimaryColor() != null)
+                aCambiar.get().setPrimaryColor(new Color(intValue));
+            if (data.getPrimaryColor() != null)
+                aCambiar.get().setSecundaryColor(new Color(intValue2));
+            return Optional.of(teamRepository.save(aCambiar.get()));
+        }
+        throw new NotFoundException("Team");
+    }
+
+    public boolean nameExist(String name) {
+        return teamRepository.existsByName(name);
     }
 }

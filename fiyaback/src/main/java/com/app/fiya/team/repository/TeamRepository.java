@@ -12,4 +12,6 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
             Select t.name From Team t
             """)
     List<String> getAllName();
+
+    boolean existsByName(String name);
 }

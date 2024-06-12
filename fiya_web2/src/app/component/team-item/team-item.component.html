@@ -16,20 +16,18 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="col-1 color-box" [style]="fixColor(team.primaryColor)">
-                </div>
-                <div class="col-1 color-box" [style]="fixColor(team.secondaryColor)">
-                </div> -->
             </div>
         </a>
     </div>
     <div class="col-1">
-        <button type="button" class="btn btn-warning w-100 mt-3 d-flex align-items-center justify-content-center">
+        <button type="button" class="btn btn-warning w-100 mt-3 d-flex align-items-center justify-content-center"
+            (click)="open(content)">
             <div class="d-flex align-items-center">
                 <span><i class="bi bi-pencil-square"></i> Edit </span>
             </div>
         </button>
-        <button type="button" class="btn btn-danger mt-3 d-flex align-items-center">
+        <button type="button" class="btn btn-danger mt-3 d-flex align-items-center"
+            (click)="openDeleteModal(deleteModal)">
             <div class="d-flex align-items-center"><i class="bi bi-trash3-fill"></i>
                 <span>Delete</span>
             </div>
@@ -38,72 +36,64 @@
 
 </div>
 
-<!-- <ng-template #content let-modal>
+<ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Editar profesor</h4>
+        <h4 class="modal-title" id="modal-basic-title">Team Edit</h4>
         <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
     <div class="modal-body">
         <form>
             <div class="mb-3">
-                <label for="nombre">Name</label>
+                <label for="name">Name</label>
                 <div class="form-group">
-                    <input id="nombre" name="nombre" type="text" class="form-control" placeholder="Fotball field"
-                        [(ngModel)]="nombre" required />
-                    <div id="nombreErr" class="text-danger mx-3">{{ nombreErr }}</div>
+                    <input id="name" name="name" type="text" class="form-control" placeholder="Fotball field"
+                        [(ngModel)]="name" required />
+                    <div id="nameErr" class="text-danger mx-3">{{ nameErr }}</div>
                 </div>
             </div>
             <div class="mb-3">
-                <label for="latitud">Latitude</label>
+                <label for="logo">Logo url</label>
                 <div class="form-group">
-                    <input id="latitud" name="latitud" type="number" class="form-control" placeholder="Latitude"
-                        [(ngModel)]="latitud" required />
-                    <div id="latitudErr" class="text-danger mx-3">{{ latitudErr }}</div>
+                    <input id="logo" name="logo" type="text" class="form-control" placeholder="logoe" [(ngModel)]="logo"
+                        required />
+                    <div id="logoErr" class="text-danger mx-3">{{ logoErr }}</div>
                 </div>
             </div>
             <div class="mb-3">
-                <label for="longitud">Longitude</label>
+                <label for="primaryColor">Primary color</label>
                 <div class="form-group">
-                    <input id="longitud" name="longitud" type="number" class="form-control" placeholder="Longitude"
-                        [(ngModel)]="longitud" required />
-                    <div id="longitudErr" class="text-danger mx-3">{{ longitudErr }}</div>
+                    <input id="primaryColor" name="primaryColor" type="color" class="form-control"
+                        placeholder="primaryColore" [(ngModel)]="primaryColor" required />
+                    <div id="primaryColorErr" class="text-danger mx-3">{{ primaryColorErr }}</div>
                 </div>
             </div>
             <div class="mb-3">
-                <label for="price">Price</label>
+                <label for="secondaryColor">Secondary color</label>
                 <div class="form-group">
-                    <input id="price" name="price" type="number" class="form-control" placeholder="Price"
-                        [(ngModel)]="price" required />
-                    <div id="priceErr" class="text-danger mx-3">{{ priceErr }}</div>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="teamCapacity">Team capacity</label>
-                <div class="form-group">
-                    <input id="teamCapacity" name="teamCapacity" type="number" class="form-control"
-                        placeholder="Team capacity" [(ngModel)]="teamCapacity" required />
-                    <div id="teamCapacityErr" class="text-danger mx-3">{{ teamCapacityErr }}</div>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label for="selectGround">Ground type</label>
-                <select class="form-select" name="ground" [(ngModel)]="ground" required id="selectGround">
-                    <option *ngFor="let item of groundList" [value]="item">{{item}}</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="description">Description</label>
-                <div class="form-group">
-                    <input id="description" name="description" type="text" class="form-control"
-                        placeholder="Short description" [(ngModel)]="description" required />
-                    <div id="descriptionErr" class="text-danger mx-3">{{ descriptionErr }}</div>
+                    <input id="secondaryColor" name="secondaryColor" type="color" class="form-control"
+                        placeholder="Secondary color" [(ngModel)]="secondaryColor" required />
+                    <div id="secondaryColorErr" class="text-danger mx-3">{{ secondaryColorErr }}</div>
                 </div>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="editField()">
+        <button type="button" class="btn btn-outline-dark" (click)="editTeam()">
             Save
         </button>
     </div>
-</ng-template> -->
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Confirm Deletion</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        Do you really want to delete this team? All associated players will be left without a team.
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="delete(); modal.close()">Delete</button>
+    </div>
+</ng-template>

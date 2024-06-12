@@ -4,6 +4,8 @@ import com.app.fiya.MyPage;
 import com.app.fiya.exception.NotFoundException;
 import com.app.fiya.field.model.Field;
 import com.app.fiya.field.repository.FieldRepository;
+import com.app.fiya.team.model.Team;
+import com.app.fiya.team.repository.TeamRepository;
 import com.app.fiya.user.dto.UserEdit;
 import com.app.fiya.user.dto.UserListResponse;
 import com.app.fiya.user.dto.UserRegister;
@@ -24,6 +26,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final TeamRepository teamRepository;
     private final FieldRepository fieldRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -123,9 +126,19 @@ public class UserService {
     public void delete (UUID id){
         Optional<User> aborrar = userRepository.findById(id);
 
-        if (aborrar.isPresent())
+        if (aborrar.isPresent()) {
+            User user = aborrar.get();
+            Team team = user.getTeam();
+            if (team != null) {
+                team.getPlayers().remove(user);
+                teamRepository.save(team);
+            }
             userRepository.deleteById(id);
-        else
+        }else
             throw new NotFoundException("User");
+    }
+
+    public boolean emailExists(String email) {
+        return userRepository.existsByEmail(email);
     }
 }

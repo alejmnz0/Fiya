@@ -1,16 +1,10 @@
 package com.app.fiya.team.controller;
 
 import com.app.fiya.MyPage;
-import com.app.fiya.team.dto.AddPlayer;
-import com.app.fiya.team.dto.AddTeam;
-import com.app.fiya.team.dto.TeamListResponse;
-import com.app.fiya.team.dto.TeamResponse;
+import com.app.fiya.team.dto.*;
 import com.app.fiya.team.model.Team;
 import com.app.fiya.team.service.TeamService;
-import com.app.fiya.user.dto.UserListResponse;
-import com.app.fiya.user.dto.UserLogin;
-import com.app.fiya.user.dto.UserRegister;
-import com.app.fiya.user.dto.UserResponse;
+import com.app.fiya.user.dto.*;
 import com.app.fiya.user.model.User;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -28,6 +22,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -120,5 +116,39 @@ public class TeamController {
     public ResponseEntity<?> addPlayer (@RequestBody AddPlayer data){
         teamService.addPlayer(data);
         return ResponseEntity.status(HttpStatus.OK).body(data);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Team deleted", content = @Content),
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTeam(@PathVariable Long id){
+        teamService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User edit successfully", content = {
+                    @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = User.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                        "name": "User",
+                                                        "email": "user@user.es",
+                                                        "birthdate": "2004-06-11"
+                                                }
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid data",
+                    content = @Content)
+    })
+    @JsonView(EditTeam.EditTeamResponse.class)
+    @PutMapping("/{id}/edit")
+    public ResponseEntity<?> editUserbyId (@Valid @RequestBody EditTeam data, @PathVariable Long id) {
+        teamService.editTeamById(data, id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(data);
     }
 }

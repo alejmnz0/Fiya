@@ -1,5 +1,6 @@
 package com.app.fiya.user.repository;
 
+import com.app.fiya.team.model.Team;
 import com.app.fiya.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             Select u.email From User u
             """)
     List<String> getAllemail();
+
+    boolean existsByEmail(String email);
+
+    List<User> findByTeam(Team team);
 }

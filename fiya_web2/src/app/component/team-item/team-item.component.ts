@@ -2,6 +2,7 @@ import { Component, Input, TemplateRef } from '@angular/core';
 import { Team } from '../../models/team.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TeamService } from '../../services/team.service';
+import { EditTeam } from '../../models/edit-team.interface';
 
 @Component({
   selector: 'app-team-item',
@@ -10,8 +11,11 @@ import { TeamService } from '../../services/team.service';
 })
 export class TeamItemComponent {
   name: string = '';
+  logo: string = '';
   primaryColor: number = 0;
   secondaryColor: number = 0;
+  actualName: string = '';
+  logoErr: string = '';
   nameErr: string = '';
   primaryColorErr: string = '';
   secondaryColorErr: string = '';
@@ -27,6 +31,8 @@ export class TeamItemComponent {
   open(content: TemplateRef<any>) {
     this.modalService.open(content);
     this.name = this.team.name;
+    this.logo = this.team.urlImage;
+    this.actualName = this.team.name;
     this.primaryColor = this.team.primaryColor;
     this.secondaryColor = this.team.secondaryColor;
   }
@@ -41,42 +47,48 @@ export class TeamItemComponent {
     return `rgb(${argb[1]},${argb[2]},${argb[3]})`
   }
 
-  // delete() {
-  //   this.teamService.deleteTeam(this.team.id).subscribe(ans => {
-  //     window.location.reload();
-  //   });
-  // }
+  delete() {
+    this.teamService.deleteTeam(this.team.id).subscribe(ans => {
+      window.location.reload();
+    });
+  }
 
-  // editTeam() {
-  //   const formattedDate: string = format(this.birthdate, 'MM/dd/yyyy');
-  //   let newuser: EditUser = new EditUser(this.name, this.email, formattedDate, this.actualEmail);
-  //   this.userService.editUser(this.user.id, newuser).subscribe({
-  //     next: data => {
-  //       this.modalService.dismissAll();
-  //       window.location.reload();
-  //     },
-  //     error: errorG => {
-  //       if (errorG.status = 400) {
-  //         let errors = errorG.error.body.fields_errors;
-  //         errors.forEach((erro: { field: any; message: any; }) => {
-  //           switch (erro.field) {
-  //             case "name":
-  //               this.nameErr = erro.message;
-  //               break;
-  //             case "email":
-  //               this.emailErr = erro.message;
-  //               break;
-  //             case "birthdate":
-  //               this.birthdateErr = erro.message;
-  //               break;
-  //             default:
-  //               this.emailErr = erro.message
-  //               break;
-  //           }
-  //         });
-  //       }
-  //     }
-  //   })
-  // }
+  openDeleteModal(content: TemplateRef<any>) {
+    this.modalService.open(content);
+  }
+
+  editTeam() {
+    let newTeam: EditTeam = new EditTeam(this.name, this.logo, this.secondaryColor, this.primaryColor, this.actualName);
+    this.teamService.editTeam(this.team.id, newTeam).subscribe({
+      next: data => {
+        this.modalService.dismissAll();
+        window.location.reload();
+      },
+      error: errorG => {
+        if (errorG.status = 400) {
+          let errors = errorG.error.body.fields_errors;
+          errors.forEach((erro: { field: any; message: any; }) => {
+            switch (erro.field) {
+              case "name":
+                this.nameErr = erro.message;
+                break;
+              case "logo":
+                this.logoErr = erro.message;
+                break;
+              case "primaryColor":
+                this.primaryColorErr = erro.message;
+                break;
+              case "secondaryColor":
+                this.secondaryColorErr = erro.message;
+                break;
+              default:
+                this.nameErr = erro.message
+                break;
+            }
+          });
+        }
+      }
+    })
+  }
 
 }
