@@ -1,5 +1,6 @@
 package com.app.fiya.user.model;
 
+import com.app.fiya.appointment.model.Appointment;
 import com.app.fiya.field.model.Field;
 import com.app.fiya.team.model.Team;
 import jakarta.persistence.*;
@@ -17,10 +18,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -68,6 +66,9 @@ public class User implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Appointment> appointments = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

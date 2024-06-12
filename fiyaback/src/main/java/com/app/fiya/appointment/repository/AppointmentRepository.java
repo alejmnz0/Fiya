@@ -1,0 +1,9 @@
+package com.app.fiya.appointment.repository;
+
+import com.app.fiya.appointment.model.Appointment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.UUID;
+
+public interface AppointmentRepository extends JpaRepository<Appointment, UUID> {
+}

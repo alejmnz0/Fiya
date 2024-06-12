@@ -1,5 +1,7 @@
 package com.app.fiya;
 
+import com.app.fiya.appointment.repository.AppointmentRepository;
+import com.app.fiya.appointment.service.AppointmentService;
 import com.app.fiya.date.model.Date;
 import com.app.fiya.field.model.Field;
 import com.app.fiya.field.model.Ground;
@@ -28,11 +30,14 @@ public class InitData {
     private final FieldRepository fieldRepository;
     private final TeamRepository teamRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AppointmentService appointmentService;
     Set<Field> fav = new HashSet<>();
 
 
     @PostConstruct
     public void InitData() {
+
+        appointmentService.generateWeeklyAppointments();
         User user = User.builder()
                 .name("John Doe")
                 .dni("12345678A")

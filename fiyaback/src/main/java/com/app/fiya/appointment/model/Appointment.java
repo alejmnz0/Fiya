@@ -1,16 +1,15 @@
-package com.app.fiya.field.model;
+package com.app.fiya.appointment.model;
 
-import com.app.fiya.appointment.model.Appointment;
-import com.app.fiya.rent.model.Rent;
+import com.app.fiya.field.model.Field;
+import com.app.fiya.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.UuidGenerator;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -18,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-public class Field {
+public class Appointment {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -34,19 +33,15 @@ public class Field {
     )
     @UuidGenerator
     @Column(columnDefinition = "uuid")
-    private Long id;
-    private String name;
-    private String latitude;
-    private String longitude;
-    private String description;
+    private UUID id;
 
-    private double price;
-    private int teamCapacity;
-    private Ground ground;
+    @ManyToOne
+    @JoinColumn(name = "field_id", nullable = false)
+    private Field field;
 
-    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Appointment> appointments = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    //@OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    //private Set<Rent> renting;
+    private LocalDateTime startTime;
 }
