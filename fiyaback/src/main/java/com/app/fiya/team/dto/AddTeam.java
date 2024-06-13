@@ -27,8 +27,6 @@ public class AddTeam {
     @NotEmpty(message = "{AddTeam.url.nonempty}")
     private String urlImage;
 
-    @NotNull(message = "{AddTeam.color.nonempty}")
-    @NotEmpty(message = "{AddTeam.color.nonempty}")
     private String primaryColor;
 
     private String secondaryColor;

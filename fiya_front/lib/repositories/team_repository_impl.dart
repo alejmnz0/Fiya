@@ -8,11 +8,15 @@ import 'package:http/http.dart';
 class TeamRepositoryImpl extends TeamRepository {
   final Client _httpClient = Client();
   final UserRepositoryImpl userRepositoryImpl = UserRepositoryImpl();
+
   @override
   Future<AddTeamDto> addTeam(AddTeamDto addTeamDto) async {
-    final response = await _httpClient.post(
-        Uri.parse('10.0.2.2:8080/team/register'),
-        body: addTeamDto.toJson());
+    final response =
+        await _httpClient.post(Uri.parse('http://10.0.2.2:8080/team/add'),
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+            },
+            body: addTeamDto.toJson());
 
     if (response.statusCode == 201) {
       final data = json.decode(response.body);

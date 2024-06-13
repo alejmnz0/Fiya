@@ -39,5 +39,6 @@ public class TeamListResponse {
                 .primaryColor(data.getPrimaryColor().getRGB())
                 .secondaryColor(data.getSecundaryColor().getRGB())
                 .build();
+
     }
 }
