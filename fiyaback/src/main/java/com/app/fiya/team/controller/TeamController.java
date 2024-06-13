@@ -19,11 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -112,9 +109,49 @@ public class TeamController {
         return ResponseEntity.status(HttpStatus.CREATED).body(data);
     }
 
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Player added successfully", content = {
+                    @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = AddPlayer.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                    "teamId": 1,
+                                                    "playerId": "84b7e4a9-cb88-4b79-9de6-a0710e8df531"
+                                                }
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid data",
+                    content = @Content)
+    })
     @PostMapping("/add-player")
     public ResponseEntity<?> addPlayer (@RequestBody AddPlayer data){
         teamService.addPlayer(data);
+        return ResponseEntity.status(HttpStatus.OK).body(data);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Player added successfully", content = {
+                    @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = AddPlayer.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {
+                                                    "teamId": 1,
+                                                    "playerId": "84b7e4a9-cb88-4b79-9de6-a0710e8df531"
+                                                }
+                                            """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "400",
+                    description = "Invalid data",
+                    content = @Content)
+    })
+    @PostMapping("/delete-player")
+    public ResponseEntity<?> deletePlayer (@RequestBody AddPlayer data){
+        teamService.deletePlayer(data);
         return ResponseEntity.status(HttpStatus.OK).body(data);
     }
 

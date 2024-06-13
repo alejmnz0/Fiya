@@ -16,11 +16,13 @@ import java.util.stream.Collectors;
 @SuperBuilder
 public class TeamResponse {
 
+    private Long id;
     private String name;
     private String urlImage;
 
     public static TeamResponse of (Team data){
         return TeamResponse.builder()
+                .id(data.getId())
                 .name(data.getName())
                 .urlImage(data.getUrlImage())
                 .build();

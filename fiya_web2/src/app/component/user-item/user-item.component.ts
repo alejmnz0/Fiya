@@ -4,11 +4,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { User } from '../../models/user.interface';
 import { EditUser } from '../../models/edit-user.interface';
 import { format } from 'date-fns';
+import { Team } from '../../models/team.interface';
+import { TeamService } from '../../services/team.service';
+import { AddPlayer } from '../../models/add-player.interface';
 
 @Component({
   selector: 'app-user-item',
   templateUrl: './user-item.component.html',
-  styleUrl: './user-item.component.css'
+  styleUrls: ['./user-item.component.css'] // Cambiado styleUrl a styleUrls
 })
 export class UserItemComponent {
   name: string = '';
@@ -22,12 +25,27 @@ export class UserItemComponent {
   birthdateErr: string = '';
   @Input() user!: User;
   roles: String[] = ["USER", "ADMIN"];
+  teams!: Team[];
 
+  constructor(private modalService: NgbModal, private userService: UserService, private teamService: TeamService) { }
 
-  constructor(private modalService: NgbModal, private userService: UserService) { }
+  ngOnInit(): void {
+    this.loadTeams();
+  }
 
   popoverClicked(event: MouseEvent) {
     event.stopPropagation();
+  }
+
+  loadTeams() {
+    this.teamService.getAllTeams(0).subscribe({
+      next: (fields) => {
+        this.teams = fields.content;
+      },
+      error: (error) => {
+        console.error('Error loading teams', error);
+      }
+    });
   }
 
   open(content: TemplateRef<any>) {
@@ -39,8 +57,52 @@ export class UserItemComponent {
   }
 
   delete() {
-    this.userService.deleteUser(this.user.id).subscribe(ans => {
-      window.location.reload();
+    this.userService.deleteUser(this.user.id).subscribe({
+      next: () => {
+        window.location.reload();
+      },
+      error: (error) => {
+        console.error('Error deleting user', error);
+      }
+    });
+  }
+
+  associateTeam(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      (result) => {
+      },
+      (reason) => {
+      }
+    );
+  }
+
+  selectTeam(teamId: number) {
+    this.teamService.addUser(new AddPlayer(teamId, this.user.id)).subscribe({
+      next: () => {
+        this.modalService.dismissAll();
+        window.location.reload();
+      },
+      error: (error) => {
+        console.error('Error adding user to team', error);
+        if (error.status === 401 || error.status === 403) {
+          console.error('Authentication error');
+        }
+      }
+    });
+  }
+
+  deleteTeam(user: User) {
+    this.teamService.deleteUser(new AddPlayer(user.team.id, this.user.id)).subscribe({
+      next: () => {
+        this.modalService.dismissAll();
+        window.location.reload();
+      },
+      error: (error) => {
+        console.error('Error adding user to team', error);
+        if (error.status === 401 || error.status === 403) {
+          console.error('Authentication error');
+        }
+      }
     });
   }
 
@@ -53,7 +115,7 @@ export class UserItemComponent {
         window.location.reload();
       },
       error: errorG => {
-        if (errorG.status = 400) {
+        if (errorG.status === 400) {
           let errors = errorG.error.body.fields_errors;
           errors.forEach((erro: { field: any; message: any; }) => {
             switch (erro.field) {
@@ -67,12 +129,12 @@ export class UserItemComponent {
                 this.birthdateErr = erro.message;
                 break;
               default:
-                this.emailErr = erro.message
+                this.emailErr = erro.message;
                 break;
             }
           });
         }
       }
-    })
+    });
   }
 }

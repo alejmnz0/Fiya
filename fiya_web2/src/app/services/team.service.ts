@@ -4,6 +4,7 @@ import { Team, TeamListResponse } from '../models/team.interface';
 import { Observable } from 'rxjs';
 import { AddTeam } from '../models/add-team.interface';
 import { EditTeam } from '../models/edit-team.interface';
+import { AddPlayer } from '../models/add-player.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +40,24 @@ export class TeamService {
         "urlImage": team.urlImage,
         "primaryColor": team.primaryColor,
         "secondaryColor": team.secondaryColor,
+      }
+    )
+  }
+
+  addUser(addPlayer: AddPlayer): Observable<AddPlayer> {
+    return this.http.post<AddPlayer>(`http://localhost:8080/team/add-player`,
+      {
+        "teamId": addPlayer.teamId,
+        "playerId": addPlayer.playerId
+      }
+    )
+  }
+
+  deleteUser(addPlayer: AddPlayer): Observable<AddPlayer> {
+    return this.http.post<AddPlayer>(`http://localhost:8080/team/delete-player`,
+      {
+        "teamId": addPlayer.teamId,
+        "playerId": addPlayer.playerId
       }
     )
   }

@@ -8,7 +8,6 @@ import com.app.fiya.team.dto.EditTeam;
 import com.app.fiya.team.dto.TeamListResponse;
 import com.app.fiya.team.model.Team;
 import com.app.fiya.team.repository.TeamRepository;
-import com.app.fiya.user.dto.UserEdit;
 import com.app.fiya.user.model.User;
 import com.app.fiya.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -104,6 +102,20 @@ public class TeamService {
             team.getPlayers().add(player);
 
             // Guardar el jugador y el equipo
+            userRepository.save(player);
+            teamRepository.save(team);
+        }
+    }
+
+    @Transactional
+    public void deletePlayer(AddPlayer data) {
+        Optional<Team> teamOp = teamRepository.findById(data.getTeamId());
+        Optional<User> playerOp = userRepository.findById(data.getPlayerId());
+        if (teamOp.isPresent() && playerOp.isPresent()) {
+            Team team = teamOp.get();
+            User player = playerOp.get();
+
+            player.setTeam(null);
             userRepository.save(player);
             teamRepository.save(team);
         }

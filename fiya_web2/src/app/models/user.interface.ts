@@ -18,6 +18,7 @@ export interface User {
 }
 
 export interface TeamResponse {
+    id: number;
     name: string;
     urlImage: string;
 }

@@ -56,8 +56,19 @@ public class InitData {
                 .password(passwordEncoder.encode("123456789"))
                 .role(UserRole.USER)
                 .build();
+        User user3 = User.builder()
+                .name("user2")
+                .dni("27654321A")
+                .image("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")
+                .email("user2@gmail.com")
+                .favourites(fav)
+                .birthdate(LocalDate.of(2011, 5, 10))
+                .password(passwordEncoder.encode("123456789"))
+                .role(UserRole.USER)
+                .build();
         userRepository.save(user);
         userRepository.save(user2);
+        userRepository.save(user3);
 
         Set<User> players = new HashSet<>();
         Team team = Team.builder()
