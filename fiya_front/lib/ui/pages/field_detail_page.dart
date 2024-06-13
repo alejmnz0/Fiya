@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:fiya_front/bloc/field-bloc/field_bloc.dart';
 import 'package:fiya_front/repositories/field_repository.dart';
 import 'package:fiya_front/repositories/field_repository_impl.dart';
@@ -16,20 +14,21 @@ class FieldDetailPage extends StatefulWidget {
 }
 
 class Event {
-  final String title;
+  final DateTime dateTime;
 
-  const Event(this.title);
+  Event({required this.dateTime});
+
+  factory Event.fromJson(Map<String, dynamic> json) {
+    return Event(
+      dateTime: DateTime.parse(json['fecha']),
+    );
+  }
 
   @override
-  String toString() => title;
+  String toString() => dateTime.toString();
 }
 
 ValueNotifier<List<Event>>? _selectedEvents;
-
-final kEvents = LinkedHashMap<DateTime, List<Event>>(
-  equals: isSameDay,
-  hashCode: getHashCode,
-)..addAll(_kEventSource);
 
 final kToday = DateTime.now();
 final kFirstDay = DateTime(kToday.year, kToday.month - 3, kToday.day);
@@ -38,17 +37,6 @@ final kLastDay = DateTime(kToday.year, kToday.month + 3, kToday.day);
 int getHashCode(DateTime key) {
   return key.day * 1000000 + key.month * 10000 + key.year;
 }
-
-final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
-    key: (item) => DateTime.utc(kFirstDay.year, kFirstDay.month, item * 3),
-    value: (item) => List.generate(
-        item % 4 + 1, (index) => Event('Event $item | ${index + 1}')))
-  ..addAll({
-    kToday: [
-      Event('Today\'s Event 1'),
-      Event('Today\'s Event 2'),
-    ],
-  });
 
 List<DateTime> daysInRange(DateTime first, DateTime last) {
   final dayCount = last.difference(first).inDays + 1;
@@ -60,42 +48,58 @@ List<DateTime> daysInRange(DateTime first, DateTime last) {
 
 class _FieldDetailPageState extends State<FieldDetailPage> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
-  DateTime _focusedDay = DateTime.utc(2024, 3, 3);
+  DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   DateTime? _rangeStart;
   DateTime? _rangeEnd;
   RangeSelectionMode _rangeSelectionMode = RangeSelectionMode.toggledOff;
   late FieldRepository fieldRepository;
   late FieldBloc fieldBloc;
+  ValueNotifier<List<Event>>? _selectedEvents;
+  Map<DateTime, List<Event>> _events = {};
 
   @override
   void initState() {
+    super.initState();
     fieldRepository = FieldRepositoryImpl();
     fieldBloc = FieldBloc(fieldRepository)
       ..add(FieldViewDetail(widget.fieldId));
     _selectedDay = _focusedDay;
-    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
-    super.initState();
+    _selectedEvents = ValueNotifier([]);
+    _fetchEvents();
   }
 
-  @override
-  void dispose() {
-    //_selectedEvents.dispose();
-    super.dispose();
+  Future<void> _fetchEvents() async {
+    FieldRepository fieldRepository = FieldRepositoryImpl();
+    List<Event> events = await fieldRepository.fetchEvents(widget.fieldId);
+    setState(() {
+      _events = _groupEventsByDate(events);
+      _selectedEvents!.value = _getEventsForDay(_selectedDay!);
+    });
+    print(events); // Verifica que se están obteniendo los eventos
+    print(_events); // Verifica que los eventos están agrupados correctamente
   }
 
-  List<Event> _getEventsForRange(DateTime start, DateTime end) {
-    // Implementation example
-    final days = daysInRange(start, end);
-
-    return [
-      for (final d in days) ..._getEventsForDay(d),
-    ];
+  Map<DateTime, List<Event>> _groupEventsByDate(List<Event> events) {
+    Map<DateTime, List<Event>> data = {};
+    for (var event in events) {
+      DateTime date = DateTime(
+          event.dateTime.year, event.dateTime.month, event.dateTime.day);
+      if (data[date] == null) data[date] = [];
+      data[date]!.add(event);
+    }
+    return data;
   }
 
   List<Event> _getEventsForDay(DateTime day) {
-    // Implementation example
-    return kEvents[day] ?? [];
+    return _events[day] ?? [];
+  }
+
+  List<Event> _getEventsForRange(DateTime start, DateTime end) {
+    final days = daysInRange(start, end);
+    return [
+      for (final day in days) ..._getEventsForDay(day),
+    ];
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -103,11 +107,10 @@ class _FieldDetailPageState extends State<FieldDetailPage> {
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
-        _rangeStart = null; // Important to clean those
+        _rangeStart = null;
         _rangeEnd = null;
         _rangeSelectionMode = RangeSelectionMode.toggledOff;
       });
-
       _selectedEvents!.value = _getEventsForDay(selectedDay);
     }
   }
@@ -120,8 +123,6 @@ class _FieldDetailPageState extends State<FieldDetailPage> {
       _rangeEnd = end;
       _rangeSelectionMode = RangeSelectionMode.toggledOn;
     });
-
-    // `start` or `end` could be null
     if (start != null && end != null) {
       _selectedEvents!.value = _getEventsForRange(start, end);
     } else if (start != null) {
@@ -213,7 +214,7 @@ class _FieldDetailPageState extends State<FieldDetailPage> {
                   ),
                   TableCalendar(
                     focusedDay: _focusedDay,
-                    firstDay: DateTime.utc(2024, 3, 3),
+                    firstDay: DateTime.utc(2024, 6, 11),
                     lastDay: DateTime.utc(2100, 1, 1),
                     selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
                     rangeStartDay: _rangeStart,
@@ -223,7 +224,6 @@ class _FieldDetailPageState extends State<FieldDetailPage> {
                     eventLoader: _getEventsForDay,
                     startingDayOfWeek: StartingDayOfWeek.monday,
                     calendarStyle: const CalendarStyle(
-                      // Use `CalendarStyle` to customize the UI
                       outsideDaysVisible: false,
                     ),
                     onDaySelected: _onDaySelected,
@@ -239,31 +239,31 @@ class _FieldDetailPageState extends State<FieldDetailPage> {
                       _focusedDay = focusedDay;
                     },
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
+                  const SizedBox(height: 8),
                   Expanded(
-                      child: ValueListenableBuilder<List<Event>>(
-                          valueListenable: _selectedEvents!,
-                          builder: (context, value, _) {
-                            return ListView.builder(
-                              itemCount: value.length,
-                              itemBuilder: (context, index) {
-                                return Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  child: ListTile(
-                                    onTap: () => print('${value[index]}'),
-                                    title: Text('${value[index]}'),
-                                  ),
-                                );
-                              },
+                    child: ValueListenableBuilder<List<Event>>(
+                      valueListenable: _selectedEvents!,
+                      builder: (context, value, _) {
+                        return ListView.builder(
+                          itemCount: value.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              margin: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 4),
+                              decoration: BoxDecoration(
+                                border: Border.all(),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: ListTile(
+                                onTap: () => print('${value[index]}'),
+                                title: Text('${value[index]}'),
+                              ),
                             );
-                          }))
+                          },
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

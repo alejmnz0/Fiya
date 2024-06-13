@@ -1,8 +1,10 @@
 package com.app.fiya.field.dto;
 
+import com.app.fiya.appointment.dto.AppointmentFieldResponse;
 import com.app.fiya.field.model.Field;
 import com.app.fiya.rent.dto.RentResponse;
 import com.app.fiya.rent.model.Rent;
+import com.app.fiya.user.dto.UserTeamResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +26,7 @@ public class FieldDetailResponse {
     private int teamCapacity;
     private String ground;
     private String description;
+    private Set<AppointmentFieldResponse> appointments;
     //private Set<RentResponse> renting;
 
     public static FieldDetailResponse of (Field data){
@@ -36,7 +39,9 @@ public class FieldDetailResponse {
                 .teamCapacity(data.getTeamCapacity())
                 .ground(data.getGround().toString())
                 .description(data.getDescription())
-                //.renting(data.getRenting().stream().map(RentResponse::of).collect(Collectors.toSet()))
+                .appointments(data.getAppointments().stream()
+                        .map(AppointmentFieldResponse::fromAppointment)
+                        .collect(Collectors.toSet()))
                 .build();
     }
 }

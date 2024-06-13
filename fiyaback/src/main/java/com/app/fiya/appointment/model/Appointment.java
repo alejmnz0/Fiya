@@ -36,11 +36,11 @@ public class Appointment {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name = "field_id", nullable = false)
+    @JoinColumn(name = "field_id")
     private Field field;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     private LocalDateTime startTime;

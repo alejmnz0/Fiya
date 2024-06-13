@@ -1,6 +1,5 @@
 package com.app.fiya.user.dto;
 
-import com.app.fiya.date.model.Date;
 import com.app.fiya.field.model.Field;
 import com.app.fiya.field.model.Ground;
 import com.app.fiya.team.dto.TeamListResponse;

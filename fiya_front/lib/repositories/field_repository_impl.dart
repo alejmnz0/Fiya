@@ -7,6 +7,8 @@ import 'package:fiya_front/models/field/field_response.dart';
 import 'package:fiya_front/repositories/field_repository.dart';
 import 'package:http/http.dart';
 
+import '../ui/pages/field_detail_page.dart';
+
 class FieldRepositoryImpl extends FieldRepository {
   final Client _httpClient = Client();
 
@@ -54,6 +56,20 @@ class FieldRepositoryImpl extends FieldRepository {
       return FieldPageResponse.fromJson(json.decode(response.body)).content!;
     } else {
       throw Exception('Failed to load Fields');
+    }
+  }
+
+  @override
+  Future<List<Event>> fetchEvents(int fieldId) async {
+    final response =
+        await _httpClient.get(Uri.parse('http://10.0.2.2:8080/field/$fieldId'));
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      List appointments = jsonResponse['appointments'];
+      return appointments.map<Event>((data) => Event.fromJson(data)).toList();
+    } else {
+      throw Exception('Failed to load events');
     }
   }
 }

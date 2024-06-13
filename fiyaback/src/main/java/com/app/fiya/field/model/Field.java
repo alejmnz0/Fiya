@@ -21,19 +21,7 @@ import java.util.Set;
 public class Field {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator",
-            parameters = {
-                    @Parameter(
-                            name = "uuid_gen_strategy_class",
-                            value = "org.hibernate.id.uuid.CustomVersionOneStrategy"
-                    )
-            }
-    )
-    @UuidGenerator
-    @Column(columnDefinition = "uuid")
+    @GeneratedValue
     private Long id;
     private String name;
     private String latitude;
@@ -44,7 +32,7 @@ public class Field {
     private int teamCapacity;
     private Ground ground;
 
-    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Appointment> appointments = new ArrayList<>();
 
     //@OneToMany(mappedBy = "field", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

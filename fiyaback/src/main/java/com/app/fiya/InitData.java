@@ -2,7 +2,6 @@ package com.app.fiya;
 
 import com.app.fiya.appointment.repository.AppointmentRepository;
 import com.app.fiya.appointment.service.AppointmentService;
-import com.app.fiya.date.model.Date;
 import com.app.fiya.field.model.Field;
 import com.app.fiya.field.model.Ground;
 import com.app.fiya.field.repository.FieldRepository;
@@ -37,7 +36,6 @@ public class InitData {
     @PostConstruct
     public void InitData() {
 
-        appointmentService.generateWeeklyAppointments();
         User user = User.builder()
                 .name("John Doe")
                 .dni("12345678A")
@@ -194,5 +192,6 @@ public class InitData {
                 .build());
 
 
+        appointmentService.generateWeeklyAppointments();
     }
 }

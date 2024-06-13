@@ -1,11 +1,16 @@
 package com.app.fiya.appointment.service;
 
+import com.app.fiya.MyPage;
+import com.app.fiya.appointment.dto.AppointmentListResponse;
 import com.app.fiya.appointment.model.Appointment;
 import com.app.fiya.appointment.repository.AppointmentRepository;
 import com.app.fiya.exception.NotFoundException;
+import com.app.fiya.field.dto.FieldListResponse;
 import com.app.fiya.field.model.Field;
 import com.app.fiya.field.repository.FieldRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +31,7 @@ public class AppointmentService {
     @Transactional
     public void generateWeeklyAppointments() {
         LocalDate startDate = LocalDate.now();
-        LocalDate endDate = startDate.plusWeeks(1);
+        LocalDate endDate = startDate.plusDays(1);
 
         for (Field field : fieldRepository.findAll()) {
             generateAppointmentsForField(field, startDate, endDate);
@@ -43,7 +48,7 @@ public class AppointmentService {
 
     private void generateAppointmentsForFieldAndDay(Field field, LocalDate date) {
         LocalTime startTime = LocalTime.of(10, 0);
-        LocalTime endTime = LocalTime.of(23, 0);
+        LocalTime endTime = LocalTime.of(11, 0);
 
         for (LocalTime time = startTime; !time.isAfter(endTime); time = time.plusHours(1)) {
             LocalDateTime appointmentTime = LocalDateTime.of(date, time);
@@ -57,13 +62,7 @@ public class AppointmentService {
     }
 
     private boolean appointmentExists(Field field, LocalDateTime startTime) {
-        List<Appointment> existingAppointments = appointmentRepository.findAll();
-        for (Appointment appointment : existingAppointments) {
-            if (appointment.getField().equals(field) && appointment.getStartTime().equals(startTime)) {
-                return true;
-            }
-        }
-        return false;
+        return appointmentRepository.existsByFieldAndStartTime(field, startTime);
     }
 
     @Transactional
@@ -74,5 +73,13 @@ public class AppointmentService {
         } else {
             throw new NotFoundException("Field");
         }
+    }
+
+    public MyPage<AppointmentListResponse> getAll(Pageable pageable) {
+        Page<Appointment> result = appointmentRepository.findAll(pageable);
+        if (result.isEmpty())
+            throw new NotFoundException("Field");
+        Page<AppointmentListResponse> response = result.map(AppointmentListResponse::of);
+        return MyPage.of(response);
     }
 }
